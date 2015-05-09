@@ -1,0 +1,27 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    link(rel='stylesheet' media='all' href='/assets/application.css')
+    title Confur admin
+    base(href='/')
+  body(ng-app='confur' ng-controller='MainCtrl')
+    nav.navbar.navbar-inverse.navbar-fixed-top
+      .container
+        .navbar-header
+          a.navbar-brand(href='/') Confur
+        #navbar
+          ul.nav.navbar-nav
+            li.active
+              a(href='/dashboard') Dashboard
+            li
+              a(href='/conferences') Conferences
+            li
+              a(href='/events') Events
+            li
+              a(href='/videos') Videos
+    .container
+      ng-view
+
+    script(src='/assets/vendor.js')
+    script(src='/assets/application.js')
