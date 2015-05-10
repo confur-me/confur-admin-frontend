@@ -6,7 +6,7 @@
 var path         = require('path');
 var gulp         = require('gulp');
 var stylus       = require('gulp-stylus');
-var bootstrap    = require('bootstrap-styl');
+var less         = require('gulp-less');
 var coffee       = require('gulp-coffee');
 var gutil        = require('gulp-util');
 var gulpJade     = require('gulp-jade');
@@ -18,11 +18,10 @@ var browserify   = require('gulp-browserify');
 var rename       = require('gulp-rename');
 var pkg          = require('./package');
 var dependencies = Object.keys(pkg.dependencies);
-var source       = require('vinyl-source-stream');
-var buffer       = require('vinyl-buffer');
 
 var appCss          = './app/styles/application.styl';
 var cssGlob         = './app/styles/**/*.styl';
+var vendorCss       = './app/styles/vendor.less';
 var appJs           = './app/js/application.coffee';
 var jsGlob          = './app/js/**/*.coffee';
 var jadeGlob        = './app/views/**/*.jade';
@@ -69,18 +68,23 @@ gulp.task('vendor:js', function() {
   ;
 });
 
-gulp.task('css', function() {
+gulp.task('app:css', function() {
   return gulp.src(appCss)
     .pipe(sourcemaps.init())
-    .pipe(stylus({
-        use: bootstrap()
-        //,
-        //paths: paths.styles
-      }))
+    .pipe(stylus())
     .pipe(autoprefixer({
         cascade: false
       }))
     .pipe(sourcemaps.write())
+    .pipe(gulp.dest(outputAssetsDir))
+  ;
+});
+
+gulp.task('vendor:css', function() {
+  return gulp.src(vendorCss)
+    .pipe(less({
+      paths: paths
+    }))
     .pipe(gulp.dest(outputAssetsDir))
   ;
 });
@@ -106,7 +110,7 @@ gulp.task('jade', function () {
 // watch for css
 gulp.task('watch-css', function() {
   gulp.watch(cssGlob,
-    ['css']
+    ['app:css']
   ).on('change', function(event) {
     gulp_log(event.type, event.path);
   });
@@ -130,5 +134,5 @@ gulp.task('watch-jade', function() {
   });
 });
 
-gulp.task('default', ['app:js', 'vendor:js', 'css', 'jade']);
+gulp.task('default', ['app:js', 'vendor:js', 'app:css', 'vendor:css', 'jade']);
 gulp.task('watch', ['default', 'watch-js', 'watch-css', 'watch-jade']);

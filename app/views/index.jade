@@ -2,26 +2,20 @@ doctype html
 html(lang='en')
   head
     meta(charset='UTF-8')
+    meta(name='description' content='')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(name='mobile-web-app-capable' content='yes')
+    link(rel='stylesheet' media='all' href='/assets/vendor.css')
     link(rel='stylesheet' media='all' href='/assets/application.css')
     title Confur admin
     base(href='/')
   body(ng-app='confur' ng-controller='MainCtrl')
-    nav.navbar.navbar-inverse.navbar-fixed-top
-      .container
-        .navbar-header
-          a.navbar-brand(href='/') Confur
-        #navbar
-          ul.nav.navbar-nav
-            li.active
-              a(href='/dashboard') Dashboard
-            li
-              a(href='/conferences') Conferences
-            li
-              a(href='/events') Events
-            li
-              a(href='/videos') Videos
-    .container
-      ng-view
-
+    nav(ng-include='"/templates/main/_header.html"')
+    .ui.page.grid.main
+      .column(ng-view)
+    pre $location.path() = {{ $location.path() }}
+    pre $route.current.templateUrl = {{ $route.current.templateUrl }}
+    pre $route.current.params = {{ $route.current.params }}
+    pre $routeParams = {{ $routeParams }}
     script(src='/assets/vendor.js')
     script(src='/assets/application.js')

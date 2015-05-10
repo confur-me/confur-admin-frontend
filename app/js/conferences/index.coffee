@@ -9,15 +9,11 @@ App = require('angular')
       templateUrl: '/templates/conferences/index.html'
       controller: 'ConferencesCtrl'
 
-    $routeProvider.when '/conferences/:id',
-      templateUrl: '/templates/conferences/show.html'
-      controller: 'ConferencesCtrl'
-
-    $routeProvider.when '/conferences/:id/edit',
-      templateUrl: '/templates/conferences/edit.html'
-      controller: 'ConferencesCtrl'
-
     $routeProvider.when '/conferences/new',
-      templateUrl: '/templates/conferences/new.html'
+      templateUrl: '/templates/conferences/form.html'
+      controller: 'ConferencesCtrl'
+
+    $routeProvider.when '/conferences/:conferenceSlug',
+      templateUrl: '/templates/conferences/form.html'
       controller: 'ConferencesCtrl'
   ]
