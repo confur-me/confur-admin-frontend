@@ -2,12 +2,13 @@
 
 module.exports = ($resource) ->
 
-  Conference = $resource("/api/conferences/:Slug", { Slug: '@Slug' },
-    update: { method: 'PUT' }
+  Conference = $resource('/api/conferences/:Slug', { Slug: '@Slug' },
+    update: { method: 'PUT' },
+    save: { method: 'POST', url: '/api/conferences' }
   )
+  # TODO: if slug is presend in Create, trying to POST to conferences/slug, which is wrong
 
   Conference.all = ->
-    # TODO: time cache
     Conference.query()
 
 

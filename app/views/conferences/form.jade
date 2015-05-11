@@ -1,4 +1,4 @@
-form.ui.form(ng-show='conference' ng-init='loading = false')
+form.ui.segment.form(ng-show='conference' ng-init='loading = false')
   h3.ui.header(ng-if='conference.ID') {{ conference.Title }}
   h3.ui.header(ng-if='!conference.ID') New conference
   .field
@@ -9,7 +9,7 @@ form.ui.form(ng-show='conference' ng-init='loading = false')
 
     .field
       label Slug
-      input(type='text' name='slug' value='{{ conference.Slug }}' ng-disabled='conference.ID')
+      input(type='text' name='slug' value='{{ conference.Slug }}' ng-model='conference.Slug' ng-disabled='conference.ID')
 
   .two.fields
     .field
@@ -44,6 +44,6 @@ form.ui.form(ng-show='conference' ng-init='loading = false')
     .or
     a.ui.button(href='/conferences')
       | Cancel
-  a.ui.button.negative(href='#')
+  a.right.floated.ui.button.negative(href='javascript:;' ng-click='destroy()' ng-if='conference.ID')
     i.icon.trash
     | Destroy
