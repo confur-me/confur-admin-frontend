@@ -1,7 +1,9 @@
-h3.ui.header Conferences page
+h3.ui.header Conferences
 .ui.selection.list
   a.item(href='/conferences/{{ conference.Slug }}' ng-repeat='conference in conferences')
     | {{ conference.Title }}
+    .right.floated.compact.ui
+      | {{ conference.UpdatedAt | timeAgo }}
 a.ui.button(href='/conferences/new')
   i.plus.icon
   | New conference

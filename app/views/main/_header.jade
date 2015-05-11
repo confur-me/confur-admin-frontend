@@ -1,8 +1,9 @@
 .ui.inverted.fixed.menu.navbar
-  a.brand.item(href='/') Confur admin
-  a.item(href='/conferences') Conferences
-  a.item(href='/events') Events
-  a.item(href='/videos') Videos
-  //-.right-menu
-    //-a.item(href='#') Sign In
-    //-a.item(href='#') Log out
+  .container
+    a.brand.item(href='/') Confur admin
+    a.item(href='/conferences') Conferences
+    a.item(href='/events') Events
+    a.item(href='/videos') Videos
+    .right.menu
+      .ui.active.inline.loader
+      a.item(href='#') Log out

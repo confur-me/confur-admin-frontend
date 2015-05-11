@@ -19,7 +19,15 @@ module.exports = ($scope, $routeParams, Conference) ->
     conference.$delete().then ->
       $scope.conferences = _.without $scope.conferences, conference
 
-  $scope.cancel = ->
-    $scope.conference = undefined
-    console.log "Cancelled conference"
-    console.log $scope.conference
+  $scope.save = () ->
+    if $scope.conference.ID
+      $scope.conference.$update().then ->
+        $scope.$location.path('/conferences')
+      , (error) ->
+        $scope.conference.error = error.data.error
+    else
+      $scope.conference.$save().then ->
+
+        $scope.$location.path('/conferences')
+      , (error) ->
+        $scope.conference.error = error.data.error

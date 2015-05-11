@@ -3,11 +3,14 @@
 $ = require('jquery')
 _ = require('lodash')
 
+require('./lib/angular-timeago')
+
 App = require('angular').module('confur', [
   require('angular-resource'),
   require('angular-sanitize'),
   require('angular-route'),
-  require('angular-animate')
+  require('angular-animate'),
+  'angularTimeago'
 ])
 
 App.config ['$locationProvider', ($locationProvider) ->

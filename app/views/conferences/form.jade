@@ -1,31 +1,49 @@
-form.ui.form(ng-show='conference')
+form.ui.form(ng-show='conference' ng-init='loading = false')
   h3.ui.header(ng-if='conference.ID') {{ conference.Title }}
   h3.ui.header(ng-if='!conference.ID') New conference
   .field
-  .field
-    input(type='text' name='title' value='{{ conference.Title }}' placeholder='Title' ng-model='conference.Title')
+  .two.fields
+    .field
+      label Title
+      input(type='text' name='title' value='{{ conference.Title }}' ng-model='conference.Title')
+
+    .field
+      label Slug
+      input(type='text' name='slug' value='{{ conference.Slug }}' ng-disabled='conference.ID')
+
+  .two.fields
+    .field
+      .field
+        label Type
+        select(name='type' ng-model='conference.Type')
+          option(ng-repeat='type in conferenceTypes' value='{{ type }}' ng-selected='type == conference.Type') {{ type }}
+
+      .field
+        label Url
+        input(type='text' name='url' value='{{ conference.Url }}' placeholder='http://' ng-model='conference.Url')
+
+      .field
+        .ui.toggle.checkbox
+          input(type='radio' name='is_active' ng-model='conference.IsActive' ng-checked='conference.IsActive')
+          label Show on site
+    .field(ng-show='false')
+      .two.fields
+        .field
+          label Image
+          img.ui.small.rounded.image(src='/images/wireframe/square-image.png')
+        .field
+          a.ui.button(href='#') Upload image
 
   .field
-    input(type='text' name='slug' value='{{ conference.Slug }}' placeholder='Slug' ng-disabled='conference.ID')
-
-  .field
-    select(name='type' ng-model='conference.Url')
-      option(ng-repeat='type in conferenceTypes' value='{{ type }}' ng-selected='type == conference.Type') {{ type }}
-
-  .field
-    input(type='text' name='url' value='{{ conference.Url }}' placeholder='http://' ng-model='conference.Url')
-
-  .field
-    .ui.toggle.checkbox
-      input(type='radio' name='is_active' ng-model='conference.IsActive' ng-checked='conference.IsActive')
-      label Show on site
-
-  .field
+    label Description
     textarea(type='text' name='description' value='{{ conference.Description }}' placeholder='Lorem ipsum...' ng-model='conference.Description')
 
   .ui.buttons
-    a.ui.positive.button(href='javascript:;' ng-click='save()')
+    a.ui.positive.button(href='javascript:;' ng-click='loading = false; save()' ng-class='{ loading: loading }')
       | Save
     .or
     a.ui.button(href='/conferences')
       | Cancel
+  a.ui.button.negative(href='#')
+    i.icon.trash
+    | Destroy
