@@ -1,0 +1,36 @@
+div(ng-controller='VideoSourcesCtrl')
+  .ui.list
+    .item(ng-repeat='source in videoSources track by source.ID' ng-click='source.edit = true')
+      .ui.form.fluid
+        .ui.grid
+          .left.floated.left.aligned.twelve.wide.column
+            .inline.fields
+              .field(ng-show='source.edit')
+                label Service
+                .ui.corner.labeled.input
+                  select.ui.dropdown(ng-model='source.Service')
+                    option(ng-repeat='service in Services' value='service' ng-selected='service == source.Service') {{ service }}
+                  .ui.corner.label
+                    i.asterisk.icon
+              .field(ng-hide='source.edit')
+                | {{ source.Service }}
+              .field(ng-show='source.edit')
+                label Location
+                .ui.corner.labeled.input.fluid
+                  input(type='text' value='{{ source.Location }}' ng-model='source.Location')
+                  .ui.corner.label
+                    i.asterisk.icon
+              .field(ng-hide='source.edit')
+                | {{ source.Location }}
+          .right.floated.right.aligned.three.wide.column
+            .inline.fields
+              .field
+                a.positive(href='javascript:;' ng-click='save(source)' ng-show='source.edit')
+                  i.icon.save
+                a(href='javascript:;' ng-click='cancel(source.ID)' ng-show='source.edit')
+                  i.icon.ban
+                a.negative(href='javascript:;' ng-click='destroy(source)' ng-show='source.ID')
+                  i.icon.trash
+  a.ui.button.tiny.compact(href='javascript:;' ng-click='new()')
+    i.plus.icon
+    | Add source

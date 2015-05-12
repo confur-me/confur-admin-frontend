@@ -1,49 +1,63 @@
 form.ui.segment.form(ng-show='conference' ng-init='loading = false')
-  h3.ui.header(ng-if='conference.ID') {{ conference.Title }}
-  h3.ui.header(ng-if='!conference.ID') New conference
-  .field
-  .two.fields
+  .ui.tabular.menu
+    a.item(href='/conferences/{{ conference.Slug }}' ng-class='{ active: tab == "conference" }')
+      span(ng-if='conference.ID') {{ conference.Title }}
+      span(ng-if='!conference.ID') New conference
+    a.item(href='/conferences/{{ conference.Slug }}/video_sources' ng-class='{ active: tab == "video_sources" }') Video sources
+  div(ng-show='tab == "conference"')
     .field
-      label Title
-      input(type='text' name='title' value='{{ conference.Title }}' ng-model='conference.Title')
-
-    .field
-      label Slug
-      input(type='text' name='slug' value='{{ conference.Slug }}' ng-model='conference.Slug' ng-disabled='conference.ID')
-
-  .two.fields
-    .field
+    .two.fields
       .field
-        label Type
-        select(name='type' ng-model='conference.Type')
-          option(ng-repeat='type in conferenceTypes' value='{{ type }}' ng-selected='type == conference.Type') {{ type }}
+        label Title
+        .ui.corner.labeled.input
+          input(type='text' name='title' value='{{ conference.Title }}' ng-model='conference.Title')
+          .ui.corner.label
+            i.asterisk.icon
 
       .field
-        label Url
-        input(type='text' name='url' value='{{ conference.Url }}' placeholder='http://' ng-model='conference.Url')
+        label Slug
+        .ui.corner.labeled.input
+          input(type='text' name='slug' value='{{ conference.Slug }}' ng-model='conference.Slug' ng-disabled='conference.ID')
+          .ui.corner.label
+            i.asterisk.icon
 
+    .two.fields
       .field
-        .ui.toggle.checkbox
-          input(type='radio' name='is_active' ng-model='conference.IsActive' ng-checked='conference.IsActive')
-          label Show on site
-    .field(ng-show='false')
-      .two.fields
         .field
-          label Image
-          img.ui.small.rounded.image(src='/images/wireframe/square-image.png')
+          label Type
+          .ui.corner.labeled.input.selection
+            select.ui.dropdown(name='type' ng-model='conference.Type')
+              option(ng-repeat='type in conferenceTypes' value='{{ type }}' ng-selected='type == conference.Type') {{ type }}
+            .ui.corner.label
+              i.asterisk.icon
+
         .field
-          a.ui.button(href='#') Upload image
+          label Url
+          input(type='text' name='url' value='{{ conference.Url }}' placeholder='http://' ng-model='conference.Url')
 
-  .field
-    label Description
-    textarea(type='text' name='description' value='{{ conference.Description }}' placeholder='Lorem ipsum...' ng-model='conference.Description')
+        .field.inline
+          .ui.toggle.checkbox
+            input(type='radio' name='is_active' ng-model='conference.IsActive' ng-checked='conference.IsActive')
+            label Show on site
+      .field(ng-show='false')
+        .two.fields
+          .field
+            label Image
+            img.ui.small.rounded.image(src='/images/wireframe/square-image.png')
+          .field
+            a.ui.button(href='#') Upload image
 
-  .ui.buttons
-    a.ui.positive.button(href='javascript:;' ng-click='loading = false; save()' ng-class='{ loading: loading }')
-      | Save
-    .or
-    a.ui.button(href='/conferences')
-      | Cancel
-  a.right.floated.ui.button.negative(href='javascript:;' ng-click='destroy()' ng-if='conference.ID')
-    i.icon.trash
-    | Destroy
+    .field
+      label Description
+      textarea(type='text' name='description' value='{{ conference.Description }}' placeholder='Lorem ipsum...' ng-model='conference.Description')
+
+    .ui.buttons
+      a.ui.positive.button(href='javascript:;' ng-click='loading = false; save()' ng-class='{ loading: loading }')
+        | Save
+      .or
+      a.ui.button(href='/conferences')
+        | Cancel
+    a.right.floated.ui.button.negative(href='javascript:;' ng-click='destroy()' ng-if='conference.ID')
+      i.icon.trash
+      | Destroy
+  div(ng-if='tab == "video_sources"' ng-include='"/templates/conferences/video_sources.html"')

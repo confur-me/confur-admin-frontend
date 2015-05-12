@@ -1,7 +1,7 @@
 .ui.segment
   h3.ui.header Conferences
   .ui.selection.list
-    a.item(href='/conferences/{{ conference.Slug }}' ng-repeat='conference in conferences')
+    a.item(href='/conferences/{{ conference.Slug }}' ng-repeat='conference in conferences track by conference.ID')
       | {{ conference.Title }}
       .right.floated.compact.ui
         | {{ conference.UpdatedAt | timeAgo }}

@@ -7,7 +7,9 @@ module.exports = ($scope, $routeParams, Conference) ->
   ]
 
   if conferenceSlug = $routeParams.conferenceSlug
-    $scope.conference = Conference.get({Slug: conferenceSlug})
+    $scope.conference = Conference.find(conferenceSlug)
+
+  $scope.tab = $routeParams.tab || 'conference'
 
   $scope.save = () ->
     $scope.conference.$update().then ->
