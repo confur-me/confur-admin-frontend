@@ -24,8 +24,8 @@ App.config ['$locationProvider', ($locationProvider) ->
 require('./main')
 require('./dashboard')
 require('./conferences')
-require('./events')
-#require('./videos')
+require('./videos')
+#require('./events')
 
 jQuery ->
   console.log "Page loaded"

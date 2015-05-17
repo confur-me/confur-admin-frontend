@@ -1,0 +1,28 @@
+div(ng-controller='VideosCtrl')
+  .ui.grid.three.column.centered.grid
+    .column(ng-repeat='video in videos track by video.ID')
+      .ui.fluid.card
+        .content
+          .header
+            a.ui.corner.label(ng-href='{{ "/conferences/" + video.ConferenceSlug + "/video_sources" }}')
+              i.icon(ng-class='video.Service')
+            a.ui.ribbon.label(ng-href='{{ "/conferences/" + video.ConferenceSlug }}' ng-hide='conference')
+              | {{ video.ConferenceSlug }}
+            | {{ video.Title | truncate: 70 }}
+        .image
+          .ui.video(video='true' data-source='{{ video.Service }}' data-id='{{ video.ServiceID }}' data-image='{{ "https://img.youtube.com/vi/" + video.ServiceID + "/mqdefault.jpg" }}')
+        .content
+          .description {{ video.Description | truncate: 120 }}
+          .meta
+            .date {{ video.Date }}
+        .extra.content
+          .ui.left.floated
+            i.icon.heart
+            | {{ video.LikesCount }}
+          .ui.right.floated
+            button.ui.button.mini.compact.basic(ng-click='edit(video.ID)')
+              i.icon.pencil
+              | Edit
+            button.ui.button.mini.compact.negative(ng-click='destroy(video.ID)')
+              i.icon.trash
+              | Delete

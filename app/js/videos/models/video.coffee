@@ -1,12 +1,20 @@
 'use strict'
 
-module.exports = ($resource, data) ->
+module.exports = ($resource) ->
+  Video =
+    $resource '/api/videos/:ID',
+      ID: '@ID'
+    ,
+      update:
+        method: 'PUT'
+      byConference:
+        method: 'GET'
+        isArray: true
+        url: '/api/conferences/:ConferenceSlug/videos'
+        params:
+          ConferenceSlug: '@ConferenceSlug'
 
-  Video = $resource("/videos/:id.json", { id: '@id' },
-    update: { method: 'PUT' }
-  )
-
-  Video.all = ->
-    Video.query()
+  Video.find = (id) ->
+    Video.get({ID: id})
 
   Video
