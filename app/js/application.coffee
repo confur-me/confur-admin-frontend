@@ -1,16 +1,20 @@
 'use strict'
 
-$ = require('jquery')
-_ = require('lodash')
+$             = require('jquery')
+window.jQuery = $
 
 require('./lib/angular-timeago')
+require('./lib/angular-truncate')
+require('./lib/angular-semantic-ui')
 
 App = require('angular').module('confur', [
   require('angular-resource'),
   require('angular-sanitize'),
   require('angular-route'),
   require('angular-animate'),
-  'angularTimeago'
+  'angularTimeago',
+  'angularTruncate',
+  'ngSemanticUI'
 ])
 
 App.config ['$locationProvider', ($locationProvider) ->
@@ -21,7 +25,7 @@ require('./main')
 require('./dashboard')
 require('./conferences')
 require('./events')
-require('./videos')
+#require('./videos')
 
-$ ->
+jQuery ->
   console.log "Page loaded"

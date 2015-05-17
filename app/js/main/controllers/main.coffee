@@ -6,3 +6,5 @@ module.exports = ($scope, $route, $routeParams, $location) ->
   $scope.$location = $location
   $scope.$routeParams = $routeParams
   console.log 'Main ctrl'
+  $scope.flash = null
+  $scope.error = null

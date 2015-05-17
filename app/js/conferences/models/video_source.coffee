@@ -2,17 +2,18 @@
 
 module.exports = ($resource) ->
 
-  VideoSource = $resource('/api/conferences/:conference_id/video_sources/:id', { id: '@ID', conference_id: '@ConferenceID' },
-    update: { method: 'PUT' }
-  )
+  VideoSource =
+    $resource '/api/conferences/:ConferenceSlug/video_sources/:ID',
+      ID: '@ID'
+      ConferenceSlug: '@ConferenceSlug'
+    ,
+      update:
+        method: 'PUT'
+      sync:
+        method: 'POST'
+        url: '/api/conferences/:ConferenceSlug/video_sources/:ID/sync'
 
-  VideoSource.all = ->
-    VideoSource.query()
-
-  VideoSource.find = (id) ->
-    VideoSource.get({ID: id})
-
-  VideoSource.findByConferenceSlug = (slug) ->
-    VideoSource.query({conference_id: slug})
+  VideoSource::isPersistent = ->
+    !!@ID
 
   VideoSource

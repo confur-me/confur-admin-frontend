@@ -1,0 +1,29 @@
+.ui.segment
+  h3.ui.header Conferences
+  .ui.selection.animated.list(ng-cloak=true)
+    .item(ng-repeat='conference in conferences track by conference.Slug')
+      .ui.left.floated.compact(ng-click='$location.path("/conferences/" + conference.Slug)')
+        | {{ conference.Title }}
+      .ui.right.floated.compact
+        button.ui.button.compact.primary.animated.tiny(ng-click='sync(conference.Slug)')
+          .hidden.content
+            i.icon.refresh.white
+            | Sync
+          .visible.content
+            i.icon.refresh.white
+            | {{ conference.UpdatedAt | timeAgo }}
+      .ui.right.floated.compact
+        span.ui.label
+          i.icon.calendar
+          | {{ conference.EventsCount || 0 }}
+        span.ui.label
+          i.icon.film
+          | {{ conference.VideosCount || 0 }}
+        span.ui.label
+          i.icon.heart
+          | {{ conference.LikesCount || 0 }}
+      //-.ui.right.floated.compact {{ conference.UpdatedAt | timeAgo }}
+
+  a.ui.button(href='/conferences/new')
+    i.plus.icon
+    | New conference

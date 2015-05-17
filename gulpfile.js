@@ -34,7 +34,31 @@ var paths = []
 
 var gulp_log = function(e, p) {
   console.log('File ' + p + ' was ' + e + ', running tasks...');
-}
+};
+
+var semanticConf = require('./semantic.json');
+var semanticDist = semanticConf.base+semanticConf.paths.output.packaged;
+var semanticCss = semanticDist+'semantic.min.css';
+var semanticJs = semanticDist+'semantic.min.js';
+var semanticThemesGlob = semanticDist+'themes/**';
+
+
+gulp.task('semantic:fonts', function() {
+  return gulp.src(semanticThemesGlob, { base: semanticDist })
+    .pipe(gulp.dest(outputAssetsDir));
+});
+
+gulp.task('semantic:js', function() {
+  return gulp.src(semanticJs)
+    .pipe(rename('semantic.js'))
+    .pipe(gulp.dest(outputAssetsDir));
+});
+
+gulp.task('semantic:css', function() {
+  return gulp.src(semanticCss)
+    .pipe(rename('semantic.css'))
+    .pipe(gulp.dest(outputAssetsDir));
+})
 
 gulp.task('app:js', function() {
   return gulp.src(appJs, { read: false })
@@ -134,5 +158,8 @@ gulp.task('watch-jade', function() {
   });
 });
 
-gulp.task('default', ['app:js', 'vendor:js', 'app:css', 'vendor:css', 'jade']);
+gulp.task('semantic', ['semantic:js', 'semantic:css', 'semantic:fonts']);
+gulp.task('app', ['app:js', 'app:css', 'jade']);
+gulp.task('vendor', ['vendor:js', 'vendor:css']);
+gulp.task('default', ['semantic', 'app', 'vendor']);
 gulp.task('watch', ['default', 'watch-js', 'watch-css', 'watch-jade']);

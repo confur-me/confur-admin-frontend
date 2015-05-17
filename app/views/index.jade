@@ -5,17 +5,27 @@ html(lang='en')
     meta(name='description' content='')
     meta(name='viewport' content='width=device-width, initial-scale=1')
     meta(name='mobile-web-app-capable' content='yes')
-    link(rel='stylesheet' media='all' href='/assets/vendor.css')
-    link(rel='stylesheet' media='all' href='/assets/application.css')
+    link(rel='stylesheet' href='/assets/vendor.css')
+    link(rel='stylesheet' href='/assets/semantic.css')
+    link(rel='stylesheet' href='/assets/application.css')
     title Confur admin
     base(href='/')
-  body(ng-app='confur' ng-controller='MainCtrl')
+  body(ng-app='confur' ng-controller='MainCtrl' ng-cloak=true ng-jq='jQuery')
     nav(ng-include='"/templates/main/_header.html"')
+    //-button.ui.button(ng-click='flash = !flash') Toggle
+    //-button.ui.button(ng-click='flash = false') Hide
+    //-button.ui.button(ng-click='flash = true') Show
+    //-div.animate.ui.message.positive(ng-show='flash == true')
+      //-| {{ flash }}
+    //-div.ui.message.negative(ng-if='error' ng-cloak=true)
+      //-| {{ error }}
     .ui.page.grid.main
       .column(ng-view ng-cloak=true)
+
     //-pre $location.path() = {{ $location.path() }}
     //-pre $route.current.templateUrl = {{ $route.current.templateUrl }}
     //-pre $route.current.params = {{ $route.current.params }}
     //-pre $routeParams = {{ $routeParams }}
     script(src='/assets/vendor.js')
     script(src='/assets/application.js')
+    script(src='/assets/semantic.js')

@@ -1,0 +1,35 @@
+div(ng-controller='VideosCtrl')
+  .ui.cards
+    .ui.card(ng-repeat='video in videos track by video.ID')
+      .image
+        .ui.video(video='true' data-source='{{ video.Service }}' data-id='{{ video.ServiceID }}' data-image='{{ "https://img.youtube.com/vi/" + video.ServiceID + "/mqdefault.jpg" }}')
+      .content
+        .header {{ video.Title | truncate: 50 }}
+        .meta
+          .date {{ video.Date }}
+        .description {{ video.Description | truncate: 100 }}
+      .extra.content
+        .ui.left.floated
+          i.icon.heart
+          | {{ video.LikesCount }}
+        .ui.right.floated
+          button.ui.button.mini.compact.basic(ng-click='edit(video.ID)')
+            i.icon.pencil
+            | Edit
+          button.ui.button.mini.compact.negative(ng-click='destroy(video.ID)')
+            i.icon.trash
+            | Delete
+
+
+      //-.ui.left.floated(href="javascript:;" ng-class='{ "disabled-item": !video.IsActive }' ng-click='edit(video.ID)')
+        //-i.icon.big(ng-class='video.Service')
+        //-| {{ video.LocationType }}: {{ video.LocationValue}}
+      //-.ui.right.floated.compact
+        //-button.ui.button.compact.basic(ng-click='edit(video.ID)')
+          //-i.icon.pencil
+          //-| Edit
+
+      //-.ui.right.floated.compact
+        //-.ui.label.large
+          //-i.icon.heart
+          //-| {{ video.LikesCount || 0 }}

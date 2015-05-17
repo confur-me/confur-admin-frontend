@@ -1,11 +1,17 @@
-.ui.fixed.menu.navbar.pointing.secondary
+.ui.fixed.menu.navbar.pointing.purple.inverted
   .container
-    .brand.item Confur admin
-    a.item(href='/')
+    a.brand.item(href='/')
       i.icon.home
-    a.item(href='/conferences') Conferences
-    a.item(href='/events') Events
-    a.item(href='/videos') Videos
+      | Confur admin
+    a.item(href='/conferences')
+      i.icon.student
+      | Conferences
+    a.item(href='/events')
+      i.icon.calendar
+      | Events
+    a.item(href='/videos')
+      i.icon.film
+      | Videos
     .right.menu
       .ui.active.inline.loader
       a.item(href='#') Log out

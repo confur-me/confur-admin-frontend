@@ -2,15 +2,23 @@
 
 module.exports = ($resource) ->
 
-  Conference = $resource('/api/conferences/:slug', { slug: '@Slug' },
-    update: { method: 'PUT' },
-    save: { method: 'POST', url: '/api/conferences' }
-  )
+  Conference =
+    $resource '/api/conferences/:Slug',
+      Slug: '@Slug'
+    ,
+      update:
+        method: 'PUT'
+      save:
+        method: 'POST'
+        url: '/api/conferences'
+      sync:
+        method: 'POST'
+        url: '/api/conferences/:Slug/sync'
 
-  Conference.all = ->
-    Conference.query()
+  Conference::isPersistent = ->
+    !!@UpdatedAt
 
   Conference.find = (slug) ->
-    Conference.get({slug: slug})
+    Conference.get({Slug: slug})
 
   Conference

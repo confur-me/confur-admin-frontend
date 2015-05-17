@@ -10,8 +10,10 @@ module.exports = ($scope, $routeParams, Conference) ->
 
   $scope.tab = $routeParams.tab || 'conference'
 
-  $scope.save = () ->
+  $scope.save = ->
     $scope.conference.$save().then ->
       $scope.$location.path('/conferences/'+$scope.conference.Slug)
+      $scope.flash = 'SUCCESS'
     , (error) ->
+      $scope.error = 'ERROR'
       $scope.conference.error = error.data.error

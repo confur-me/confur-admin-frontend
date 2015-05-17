@@ -1,0 +1,30 @@
+div(ng-controller='VideoSourcesCtrl' ng-keyup='$event.keyCode == 27 && cancel()')
+  .ui.right.attached.internal.rail.video-source__form.animate(ng-if='videoSource')
+    .ui.segment.raised
+      ng-include(src='"/templates/conferences/video_sources/form.html"')
+  .ui.selection.animated.list
+    .item(ng-repeat='source in videoSources track by source.ID')
+      .ui.left.floated(ng-class='{ "disabled-item": !source.IsActive }' ng-click='edit(source.ID)')
+        i.icon.big(ng-class='source.Service')
+        | {{ source.LocationType }}: {{ source.LocationValue}}
+      .ui.right.floated.compact
+        button.ui.button.compact.primary.animated.tiny(ng-click='sync(source.ID)' ng-disabled='!source.IsActive')
+          .hidden.content
+            i.icon.refresh.white
+            | Sync
+          .visible.content
+            span(ng-hide='source.$syncing')
+              i.icon.refresh.white
+              | {{ source.SyncedAt | timeAgo }}
+            span(ng-show='source.$syncing')
+              i.icon.refresh.white.loading
+              | Syncing
+
+      .ui.right.floated.compact
+        .ui.label
+          i.icon.film
+          | {{ source.VideosCount || 0 }}
+
+  button.ui.button.compact(ng-click='add()')
+    i.plus.icon
+    | Add source

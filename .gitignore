@@ -1,3 +1,7 @@
 node_modules/
 public/
 log/
+npm-debug.log
+semantic/dist
+semantic/tasks
+semantic

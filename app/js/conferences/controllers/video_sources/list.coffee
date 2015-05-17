@@ -4,41 +4,69 @@ _ = require('lodash')
 
 module.exports = ($scope, $routeParams, VideoSource) ->
   $scope.Services = ['youtube']
+  $scope.LocationTypes =
+    youtube: ['playlist', 'channel', 'video']
 
-  $scope.videoSources = VideoSource.findByConferenceSlug($routeParams.conferenceSlug)
+  $scope.videoSources =
+    VideoSource.query
+      ConferenceSlug: $routeParams.conferenceSlug
 
-  $scope.new = ->
-    $scope.videoSources.push(new VideoSource({edit: true}))
+  $scope.videoSource = null
 
-  $scope.destroy = (object) ->
-    object.$delete().then ->
-      $scope.cancel(object)
-    , (error) ->
-      object.error = error.data.error
-      updateCollection(object)
+  $scope.add = ->
+    resetForm()
+    $scope.videoSource =
+      new VideoSource
+        IsActive: true
+        LocationType: 'youtube'
+        ConferenceSlug: $routeParams.conferenceSlug
 
-  $scope.save = (object) ->
-    object.$update().then ->
-      updateCollection(object)
-    , (error) ->
-      object.error = error.data.error
-      updateCollection(object)
+  $scope.edit = (id) ->
+    resetForm()
+    index = _.findIndex $scope.videoSources, (src) ->
+      src.ID == id
+    $scope.videoSource = angular.copy($scope.videoSources[index])
 
-  $scope.cancel = (id) ->
-    console.log id
-    object = angular.copy(_.select($scope.videoSources, (source) -> source.ID == id)[0])
-    console.log object
-    if object.ID
-      object.edit = false
-      console.log object
-      updateCollection(object)
+  $scope.sync = (id) ->
+    source = _.find $scope.videoSources, (src) ->
+      src.ID == id
+    if source
+      source.$sync().then ->
+        source.$syncing = true
+
+  $scope.save = ->
+    if $scope.videoSource.isPersistent()
+      $scope.videoSource.$update().then ->
+        updateCollection()
+        $scope.cancel()
+      , (error) ->
+        $scope.videoSource.$error = true
     else
-      $scope.videoSources = _.without $scope.videoSources, object
+      $scope.videoSource.$save().then ->
+        updateCollection()
+        $scope.cancel()
+      , (error) ->
+        $scope.videoSource.$error = true
 
-  updateCollection = (object) ->
-    index = _.findIndex($scope.videoSources, { ID: object.ID })
-    console.log index
-    console.log object
-    console.log $scope.videoSources[index]
-    $scope.videoSources[index] = object
-    console.log $scope.videoSources[index]
+  $scope.cancel = ->
+    $scope.videoSource = null
+
+  #$scope.destroy = (videoSource) ->
+    #videoSource.$delete().then ->
+      #$scope.cancel(videoSource)
+    #, (error) ->
+      #videoSource.error = error.data.error
+      #updateCollection(videoSource)
+
+  updateCollection = ->
+    index = _.findIndex $scope.videoSources, (src) ->
+      src.ID == $scope.videoSource.ID
+    if index > -1
+      $scope.videoSources[index] = $scope.videoSource
+    else
+      $scope.videoSources.push $scope.videoSource
+    console.log $scope.videoSources.length
+
+  resetForm = ->
+    if $scope.videoSource
+      $scope.cancel()

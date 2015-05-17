@@ -1,0 +1,34 @@
+.ui.form(ng-class='{ error: videoSource.$error }')
+  .ui.error.message(ng-if='videoSource.$error')
+    | Oh snap!
+  .field
+    h4.ui.dividing.header
+      span(ng-if='!videoSource.isPersistent()') New source
+      span(ng-if='videoSource.isPersistent()') Edit source {{ videoSource.ID }}
+  .field
+    .ui.toggle.checkbox(ng-checkbox='videoSource.IsActive')
+      input(type='checkbox' ng-checked='videoSource.IsActive' value='true')
+      label Active
+  .field.fourteen.wide.required
+    label Service
+    select(ng-model='videoSource.Service' ng-change='videoSource.LocationType = ""; videoSource.LocationValue = ""')
+      option(ng-repeat='service in Services' value='{{ service }}' ng-selected='service == videoSource.Service')
+        | {{ service }}
+  .field.fourteen.wide.required
+    label Location
+    .ui.left.labeled.input
+      select(ng-model='videoSource.LocationType' ng-change='videoSource.LocationValue = ""')
+        option(ng-repeat='locationType in LocationTypes[videoSource.Service]' value='{{ locationType }}' ng-selected='locationType == videoSource.LocationType') {{ locationType }}
+      input(type='text' value='{{ videoSource.LocationValue }}' ng-model='videoSource.LocationValue')
+
+  .ui.hidden.divider
+  .ui.buttons
+    button.ui.button.positive.compact(ng-click='save()')
+      | Save
+    .or
+    button.ui.button.compact(ng-click='cancel()')
+      | Cancel
+
+  button.right.floated.ui.compact.button.negative(ng-click='destroy()' ng-show='videoSource.isPersistent()')
+    i.icon.trash
+    | Destroy
