@@ -10,7 +10,7 @@ div(ng-controller='VideosCtrl')
               | {{ video.ConferenceSlug }}
             | {{ video.Title | truncate: 70 }}
         .image
-          .ui.video(video='true' data-source='{{ video.Service }}' data-id='{{ video.ServiceID }}' data-image='{{ "https://img.youtube.com/vi/" + video.ServiceID + "/mqdefault.jpg" }}')
+          .ui.video(video='true' data-source='{{ video.Service }}' data-id='{{ video.ServiceID }}' data-image='{{ video.Thumbnail }}')
         .content
           .description {{ video.Description | truncate: 120 }}
           .meta
