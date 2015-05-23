@@ -1,12 +1,21 @@
 'use strict'
 
-module.exports = ($resource, data) ->
+module.exports = ($resource) ->
+  Event =
+    $resource '/api/events/:ID',
+      ID: '@ID'
+    ,
+      update:
+        method: 'PUT'
+      byConference:
+        method: 'GET'
+        isArray: true
+        url: '/api/conferences/:ConferenceSlug/events'
+        params:
+          ConferenceSlug: '@ConferenceSlug'
 
-  Event = $resource("/events/:id.json", { id: '@id' },
-    update: { method: 'PUT' }
-  )
-
-  Event.all = ->
-    Event.query()
+  Event.find = (id) ->
+    Event.get({ID: id})
 
   Event
+

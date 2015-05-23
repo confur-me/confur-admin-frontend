@@ -25,7 +25,7 @@ require('./main')
 require('./dashboard')
 require('./conferences')
 require('./videos')
-#require('./events')
+require('./events')
 
 jQuery ->
   console.log "Page loaded"

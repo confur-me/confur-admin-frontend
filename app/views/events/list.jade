@@ -1,0 +1,27 @@
+div(ng-controller='ListEventsCtrl')
+  .ui.selection.animated.list(ng-cloak=true)
+    .item(ng-repeat='event in events track by event.ID')
+      .content
+        .header
+          a.ui.corner.label(ng-href='{{ "/conferences/" + event.ConferenceSlug + "/event_sources" }}')
+            i.icon(ng-class='event.Service')
+          a.ui.ribbon.label(ng-href='{{ "/conferences/" + event.ConferenceSlug }}' ng-hide='conference')
+            | {{ event.ConferenceSlug }}
+          | {{ event.Title | truncate: 70 }}
+      .image
+        .ui.event(event='true' data-source='{{ event.Service }}' data-id='{{ event.ServiceID }}' data-image='{{ event.Thumbnail }}')
+      .content
+        .description {{ event.Description | truncate: 120 }}
+        .meta
+          .date {{ event.Date }}
+      .extra.content
+        .ui.left.floated
+          i.icon.heart
+          | {{ event.LikesCount }}
+        .ui.right.floated
+          button.ui.button.mini.compact.basic(ng-click='edit(event.ID)')
+            i.icon.pencil
+            | Edit
+          button.ui.button.mini.compact.negative(ng-click='destroy(event.ID)')
+            i.icon.trash
+            | Delete
