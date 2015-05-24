@@ -3,8 +3,8 @@
 module.exports = ($resource) ->
 
   Conference =
-    $resource '/api/conferences/:Slug',
-      Slug: '@Slug'
+    $resource '/api/conferences/:slug',
+      slug: '@slug'
     ,
       update:
         method: 'PUT'
@@ -13,12 +13,12 @@ module.exports = ($resource) ->
         url: '/api/conferences'
       sync:
         method: 'POST'
-        url: '/api/conferences/:Slug/sync'
+        url: '/api/conferences/:slug/sync'
 
   Conference::isPersistent = ->
-    !!@UpdatedAt
+    !!@updated_at
 
   Conference.find = (slug) ->
-    Conference.get({Slug: slug})
+    Conference.get({slug: slug})
 
   Conference

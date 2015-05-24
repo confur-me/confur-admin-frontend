@@ -2,20 +2,20 @@
 
 module.exports = ($resource) ->
   Event =
-    $resource '/api/events/:ID',
-      ID: '@ID'
+    $resource '/api/events/:id',
+      id: '@id'
     ,
       update:
         method: 'PUT'
       byConference:
         method: 'GET'
         isArray: true
-        url: '/api/conferences/:ConferenceSlug/events'
+        url: '/api/conferences/:conference_slug/events'
         params:
-          ConferenceSlug: '@ConferenceSlug'
+          conference_slug: '@conference_slug'
 
   Event.find = (id) ->
-    Event.get({ID: id})
+    Event.get({id: id})
 
   Event
 

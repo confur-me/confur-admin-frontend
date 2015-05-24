@@ -4,22 +4,22 @@
   .field
     h4.ui.dividing.header
       span(ng-if='!videoSource.isPersistent()') New source
-      span(ng-if='videoSource.isPersistent()') Edit source {{ videoSource.ID }}
+      span(ng-if='videoSource.isPersistent()') Edit source {{ videoSource.id }}
   .field
-    .ui.toggle.checkbox(ng-checkbox='videoSource.IsActive')
-      input(type='checkbox' ng-checked='videoSource.IsActive' value='true')
+    .ui.toggle.checkbox(ng-checkbox='videoSource.is_active')
+      input(type='checkbox' ng-checked='videoSource.is_active' value='true')
       label Active
   .field.fourteen.wide.required
     label Service
-    select(ng-model='videoSource.Service' ng-change='videoSource.LocationType = ""; videoSource.LocationValue = ""')
-      option(ng-repeat='service in Services' value='{{ service }}' ng-selected='service == videoSource.Service')
+    select(ng-model='videoSource.service' ng-change='videoSource.location_type = ""')
+      option(ng-repeat='service in Services' value='{{ service }}' ng-selected='service == videoSource.service')
         | {{ service }}
   .field.fourteen.wide.required
     label Location
     .ui.left.labeled.input
-      select(ng-model='videoSource.LocationType' ng-change='videoSource.LocationValue = ""')
-        option(ng-repeat='locationType in LocationTypes[videoSource.Service]' value='{{ locationType }}' ng-selected='locationType == videoSource.LocationType') {{ locationType }}
-      input(type='text' value='{{ videoSource.LocationValue }}' ng-model='videoSource.LocationValue')
+      select(ng-model='videoSource.location_type')
+        option(ng-repeat='locationType in LocationTypes[videoSource.service]' value='{{ locationType }}' ng-selected='locationType == videoSource.location_type') {{ locationType }}
+      input(type='text' value='{{ videoSource.location_value }}' ng-model='videoSource.location_value')
 
   .ui.hidden.divider
   .ui.buttons

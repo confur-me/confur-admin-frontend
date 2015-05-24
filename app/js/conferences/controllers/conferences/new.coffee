@@ -12,7 +12,7 @@ module.exports = ($scope, $routeParams, Conference) ->
 
   $scope.save = ->
     $scope.conference.$save().then ->
-      $scope.$location.path('/conferences/'+$scope.conference.Slug)
+      $scope.$location.path('/conferences/'+$scope.conference.slug)
       $scope.flash = 'SUCCESS'
     , (error) ->
       $scope.error = 'ERROR'

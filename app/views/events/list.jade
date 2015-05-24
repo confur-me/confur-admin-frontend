@@ -1,27 +1,27 @@
 div(ng-controller='ListEventsCtrl')
   .ui.selection.animated.list(ng-cloak=true)
-    .item(ng-repeat='event in events track by event.ID')
+    .item(ng-repeat='event in events track by event.id')
       .content
         .header
-          a.ui.corner.label(ng-href='{{ "/conferences/" + event.ConferenceSlug + "/event_sources" }}')
-            i.icon(ng-class='event.Service')
-          a.ui.ribbon.label(ng-href='{{ "/conferences/" + event.ConferenceSlug }}' ng-hide='conference')
-            | {{ event.ConferenceSlug }}
-          | {{ event.Title | truncate: 70 }}
+          a.ui.corner.label(ng-href='{{ "/conferences/" + event.conference_slug + "/event_sources" }}')
+            i.icon(ng-class='event.service')
+          a.ui.ribbon.label(ng-href='{{ "/conferences/" + event.conference_slug }}' ng-hide='conference')
+            | {{ event.conference_slug }}
+          | {{ event.title | truncate: 70 }}
       .image
-        .ui.event(event='true' data-source='{{ event.Service }}' data-id='{{ event.ServiceID }}' data-image='{{ event.Thumbnail }}')
+        .ui.event(event='true' data-source='{{ event.service }}' data-id='{{ event.service_id }}' data-image='{{ event.thumbnail }}')
       .content
-        .description {{ event.Description | truncate: 120 }}
+        .description {{ event.description | truncate: 120 }}
         .meta
-          .date {{ event.Date }}
+          .date {{ event.date }}
       .extra.content
         .ui.left.floated
           i.icon.heart
-          | {{ event.LikesCount }}
+          | {{ event.likes_count }}
         .ui.right.floated
-          button.ui.button.mini.compact.basic(ng-click='edit(event.ID)')
+          button.ui.button.mini.compact.basic(ng-click='edit(event.id)')
             i.icon.pencil
             | Edit
-          button.ui.button.mini.compact.negative(ng-click='destroy(event.ID)')
+          button.ui.button.mini.compact.negative(ng-click='destroy(event.id)')
             i.icon.trash
             | Delete

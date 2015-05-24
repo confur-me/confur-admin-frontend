@@ -7,6 +7,6 @@ module.exports = ($scope, Conference) ->
 
   $scope.sync = (slug) ->
     conf = _.find $scope.conferences, (src) ->
-      src.Slug == slug
+      src.slug == slug
     if conf
       conf.$sync()

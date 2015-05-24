@@ -9,7 +9,7 @@ module.exports = ($scope, $routeParams, VideoSource) ->
 
   $scope.videoSources =
     VideoSource.query
-      ConferenceSlug: $routeParams.conferenceSlug
+      conference_slug: $routeParams.conferenceSlug
 
   $scope.videoSource = null
 
@@ -17,19 +17,19 @@ module.exports = ($scope, $routeParams, VideoSource) ->
     resetForm()
     $scope.videoSource =
       new VideoSource
-        IsActive: true
-        LocationType: 'youtube'
-        ConferenceSlug: $routeParams.conferenceSlug
+        is_active: true
+        location_type: 'youtube'
+        conference_slug: $routeParams.conferenceSlug
 
   $scope.edit = (id) ->
     resetForm()
     index = _.findIndex $scope.videoSources, (src) ->
-      src.ID == id
+      src.id == id
     $scope.videoSource = angular.copy($scope.videoSources[index])
 
   $scope.sync = (id) ->
     source = _.find $scope.videoSources, (src) ->
-      src.ID == id
+      src.id == id
     if source
       source.$sync().then ->
         source.$syncing = true
@@ -60,7 +60,7 @@ module.exports = ($scope, $routeParams, VideoSource) ->
 
   updateCollection = ->
     index = _.findIndex $scope.videoSources, (src) ->
-      src.ID == $scope.videoSource.ID
+      src.id == $scope.videoSource.id
     if index > -1
       $scope.videoSources[index] = $scope.videoSource
     else

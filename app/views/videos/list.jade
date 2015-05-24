@@ -1,28 +1,28 @@
 div(ng-controller='VideosCtrl')
   .ui.grid.three.column.centered.grid
-    .column(ng-repeat='video in videos track by video.ID')
+    .column(ng-repeat='video in videos track by video.id')
       .ui.fluid.card
         .content
           .header
-            a.ui.corner.label(ng-href='{{ "/conferences/" + video.ConferenceSlug + "/video_sources" }}')
-              i.icon(ng-class='video.Service')
-            a.ui.ribbon.label(ng-href='{{ "/conferences/" + video.ConferenceSlug }}' ng-hide='conference')
-              | {{ video.ConferenceSlug }}
-            | {{ video.Title | truncate: 70 }}
+            a.ui.corner.label(ng-href='{{ "/conferences/" + video.conference_slug + "/video_sources" }}')
+              i.icon(ng-class='video.service')
+            a.ui.ribbon.label(ng-href='{{ "/conferences/" + video.conference_slug }}' ng-hide='conference')
+              | {{ video.conference_slug }}
+            | {{ video.title | truncate: 70 }}
         .image
-          .ui.video(video='true' data-source='{{ video.Service }}' data-id='{{ video.ServiceID }}' data-image='{{ video.Thumbnail }}')
+          .ui.video(video='true' data-source='{{ video.service }}' data-id='{{ video.service_id }}' data-image='{{ video.thumbnail }}')
         .content
-          .description {{ video.Description | truncate: 120 }}
+          .description {{ video.description | truncate: 120 }}
           .meta
-            .date {{ video.Date }}
+            .date {{ video.date }}
         .extra.content
           .ui.left.floated
             i.icon.heart
-            | {{ video.LikesCount }}
+            | {{ video.likes_count }}
           .ui.right.floated
-            button.ui.button.mini.compact.basic(ng-click='edit(video.ID)')
+            button.ui.button.mini.compact.basic(ng-click='edit(video.id)')
               i.icon.pencil
               | Edit
-            button.ui.button.mini.compact.negative(ng-click='destroy(video.ID)')
+            button.ui.button.mini.compact.negative(ng-click='destroy(video.id)')
               i.icon.trash
               | Delete

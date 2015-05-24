@@ -2,19 +2,19 @@
 
 module.exports = ($resource) ->
   Video =
-    $resource '/api/videos/:ID',
-      ID: '@ID'
+    $resource '/api/videos/:id',
+      id: '@id'
     ,
       update:
         method: 'PUT'
       byConference:
         method: 'GET'
         isArray: true
-        url: '/api/conferences/:ConferenceSlug/videos'
+        url: '/api/conferences/:conference_slug/videos'
         params:
-          ConferenceSlug: '@ConferenceSlug'
+          conference_slug: '@conference_slug'
 
   Video.find = (id) ->
-    Video.get({ID: id})
+    Video.get({id: id})
 
   Video
