@@ -12,6 +12,7 @@ html(lang='en')
     base(href='/')
   body(ng-app='confur' ng-controller='MainCtrl' ng-cloak=true ng-jq='jQuery')
     nav(ng-include='"/templates/main/_header.html"')
+    //-#loader.ui.active.inline.text.loader
     //-button.ui.button(ng-click='flash = !flash') Toggle
     //-button.ui.button(ng-click='flash = false') Hide
     //-button.ui.button(ng-click='flash = true') Show
@@ -19,7 +20,7 @@ html(lang='en')
       //-| {{ flash }}
     //-div.ui.message.negative(ng-if='error' ng-cloak=true)
       //-| {{ error }}
-    .ui.page.grid.main
+    #content.ui.page.grid.main
       .column(ng-view ng-cloak=true)
 
     //-pre $location.path() = {{ $location.path() }}

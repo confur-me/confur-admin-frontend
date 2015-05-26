@@ -2,24 +2,33 @@
 
 $             = require('jquery')
 window.jQuery = $
+Angular = require('angular')
 
 require('./lib/angular-timeago')
 require('./lib/angular-truncate')
 require('./lib/angular-semantic-ui')
+require('angular-loading-bar')
 
-App = require('angular').module('confur', [
-  require('angular-resource'),
-  require('angular-sanitize'),
-  require('angular-route'),
-  require('angular-animate'),
-  'angularTimeago',
-  'angularTruncate',
-  'ngSemanticUI'
-])
+App = Angular
+  .module('confur', [
+    require('angular-resource'),
+    require('angular-sanitize'),
+    require('angular-route'),
+    require('angular-animate'),
+    'angularTimeago',
+    'angularTruncate',
+    'ngSemanticUI',
+    'angular-loading-bar'
+  ])
 
-App.config ['$locationProvider', ($locationProvider) ->
-  $locationProvider.html5Mode(true)
-]
+App
+  .config(['cfpLoadingBarProvider', (cfpLoadingBarProvider) ->
+    cfpLoadingBarProvider.latencyThreshold = 0
+    cfpLoadingBarProvider.includeSpinner = true
+  ])
+  .config(['$locationProvider', ($locationProvider) ->
+    $locationProvider.html5Mode(true)
+  ])
 
 require('./main')
 require('./dashboard')
