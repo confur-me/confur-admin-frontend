@@ -3,7 +3,9 @@
 _ = require('lodash')
 
 module.exports = ($scope, Conference) ->
-  $scope.conferences = Conference.query()
+  Conference.query({}, then (confs) ->
+    $scope.conferences = confs
+  )
 
   $scope.sync = (slug) ->
     conf = _.find $scope.conferences, (src) ->

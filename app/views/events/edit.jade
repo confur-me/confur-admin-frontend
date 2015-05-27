@@ -1,0 +1,20 @@
+div.ui.message.positive(ng-if='flash') {{ flash }}
+div.ui.message.negative(ng-if='error') {{ error }}
+form.ui.segment.form(ng-show='event')
+  .ui.purple.secondary.menu(ng-cloak=true)
+    a.item(ng-href='/events/{{ event.slug || "new" }}' ng-class='{ active: tab == "event" }')
+      span(ng-if='event.isPersistent()' ng-cloak=true)
+        i.icon.student
+        | {{ event.title }}
+      span(ng-if='!event.isPersistent()' ng-cloak=true)
+        i.icon.file.outline
+        | New event
+    a.item(ng-href='{{ event.isPersistent() ? "/events/"+event.slug+"/videos" : "#" }}' ng-class='{ active: tab == "videos", disabled: !event.isPersistent() }')
+      i.icon.film
+      | Videos
+      .ui.label.inverted(ng-show='event.isPersistent()') {{ event.videos_count || 0 }}
+    a.item(ng-href='{{ event.isPersistent() ? "/events/"+event.slug+"/video_sources" : "#" }}' ng-class='{ active: tab == "video_sources", disabled: !event.isPersistent() }')
+      i.icon.database
+      | Video sources
+  div(ng-show='tab == "event"')
+    ng-include(src='"/templates/events/form"')

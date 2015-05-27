@@ -1,30 +1,9 @@
-div(ng-controller='ListEventsCtrl' ng-keyup='$event.keyCode == 27 && cancel()')
+div(ng-controller='ListEventsCtrl')
   .ui.selection.animated.list(ng-cloak=true)
-    .item(ng-repeat='event in events track by event.id')
-      .content
-        .header
-          a.ui.corner.label(ng-href='{{ "/conferences/" + event.conference_slug + "/event_sources" }}')
-            i.icon(ng-class='event.service')
-          a.ui.ribbon.label(ng-href='{{ "/conferences/" + event.conference_slug }}' ng-hide='conference')
-            | {{ event.conference_slug }}
-          | {{ event.title | truncate: 70 }}
-      .image
-        .ui.event(event='true' data-source='{{ event.service }}' data-id='{{ event.service_id }}' data-image='{{ event.thumbnail }}')
-      .content
-        .description {{ event.description | truncate: 120 }}
-        .meta
-          .date {{ event.date }}
-      .extra.content
-        .ui.left.floated
-          i.icon.heart
-          | {{ event.likes_count }}
-        .ui.right.floated
-          button.ui.button.mini.compact.basic(ng-click='edit(event.id)')
-            i.icon.pencil
-            | Edit
-          button.ui.button.mini.compact.negative(ng-click='destroy(event.id)')
-            i.icon.trash
-            | Delete
-  button.ui.button.compact(ng-click='add()')
+    .item(ng-repeat='event in events | orderBy:"title" track by event.id')
+      .ui.left.floated.compact(ng-click='$location.path("/events/" + event.id)')
+        | {{ event.title | truncate: 70 }}
+
+  a.ui.button(ng-href='{{ linkToNewEvent }}')
     i.plus.icon
-    | Add event
+    | New event

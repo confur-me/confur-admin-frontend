@@ -3,7 +3,7 @@ div(ng-controller='VideoSourcesCtrl' ng-keyup='$event.keyCode == 27 && cancel()'
     .ui.segment.raised
       ng-include(src='"/templates/video_sources/form.html"')
   .ui.selection.animated.list
-    .item(ng-repeat='source in videoSources track by source.id')
+    .item(ng-repeat='source in videoSources | orderBy:"location_type" | orderBy:"location_type" | orderBy:"id" track by source.id')
       .ui.left.floated(ng-class='{ "disabled-item": !source.is_active }' ng-click='edit(source.id)')
         i.icon.big(ng-class='source.service')
         | {{ source.location_type }}: {{ source.location_value}}

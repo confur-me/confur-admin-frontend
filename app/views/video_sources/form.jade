@@ -22,13 +22,13 @@
       input(type='text' value='{{ videoSource.location_value }}' ng-model='videoSource.location_value')
 
   .ui.hidden.divider
-  .ui.buttons
-    button.ui.button.positive.compact(ng-click='save()')
+  .ui.buttons.tiny
+    button.ui.button.positive(ng-click='save()')
       | Save
     .or
-    button.ui.button.compact(ng-click='cancel()')
+    button.ui.button(ng-click='cancel()')
       | Cancel
 
-  button.right.floated.ui.compact.button.negative(ng-click='destroy()' ng-show='videoSource.isPersistent()')
+  button.right.floated.ui.tiny.button.negative(ng-click='destroy()' ng-show='videoSource.isPersistent()')
     i.icon.trash
     | Destroy

@@ -8,6 +8,14 @@ module.exports = ($scope, $routeParams, Event) ->
     else
       Event.query()
 
+  $scope.linkToNewEvent =
+    if $routeParams.conferenceSlug
+      '/conferences/'+$routeParams.conferenceSlug+'/events/new'
+    else
+      '/events/new'
+
+
+
   $scope.sync = (id) ->
     conf = _.find $scope.events, (src) ->
       src.id == id

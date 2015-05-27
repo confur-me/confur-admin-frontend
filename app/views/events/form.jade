@@ -1,0 +1,39 @@
+.ui.form(ng-class='{ error: event.$error }' style='min-height: 300px')
+  .ui.error.message(ng-if='event.$error')
+    | Oh snap!
+  .field.fourteen.wide.required
+    label Conference
+    select(ng-model='event.conference_slug' ng-dropdown='event.conference_slug')
+      option(ng-repeat='conference in conferences' value='{{ conference.slug }}' ng-selected='conference.slug == event.conference_slug')
+        | {{ conference.title }}
+  .field
+    .ui.two.fields
+      .field
+        label Country
+        input(type='text' ng-value='{{ event.country }}' ng-model='event.country')
+      .field
+        label State
+        input(type='text' ng-value='{{ event.state }}' ng-model='event.state')
+  .field
+    label Address
+    input(type='text' ng-value='{{ event.address }}' ng-model='event.address')
+
+  .ui.hidden.divider
+  .ui.buttons
+    button.ui.button.positive(ng-click='save()')
+      | Save
+    .or
+    button.ui.button(ng-click='cancel()')
+      | Cancel
+
+    button.ui.button.floated.right.primary.animated(ng-click='sync()' ng-show='event.isPersistent()')
+      .hidden.content
+        i.icon.refresh.white
+        | Sync
+      .visible.content
+        i.icon.refresh.white
+        | {{ event.synced_at | timeAgo }}
+
+  button.right.floated.ui.button.negative(ng-click='destroy()' ng-show='event.isPersistent()')
+    i.icon.trash
+    | Destroy
