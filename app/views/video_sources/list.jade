@@ -1,7 +1,7 @@
 div(ng-controller='VideoSourcesCtrl' ng-keyup='$event.keyCode == 27 && cancel()')
   .ui.right.attached.internal.rail.video-source__form.animate(ng-if='videoSource')
     .ui.segment.raised
-      ng-include(src='"/templates/conferences/video_sources/form.html"')
+      ng-include(src='"/templates/video_sources/form.html"')
   .ui.selection.animated.list
     .item(ng-repeat='source in videoSources track by source.id')
       .ui.left.floated(ng-class='{ "disabled-item": !source.is_active }' ng-click='edit(source.id)')
@@ -13,10 +13,10 @@ div(ng-controller='VideoSourcesCtrl' ng-keyup='$event.keyCode == 27 && cancel()'
             i.icon.refresh.white
             | Sync
           .visible.content
-            span(ng-hide='source.$syncing')
+            span(ng-hide='source.syncing')
               i.icon.refresh.white
               | {{ source.synced_at | timeAgo }}
-            span(ng-show='source.$syncing')
+            span(ng-show='source.syncing')
               i.icon.refresh.white.loading
               | Syncing
 

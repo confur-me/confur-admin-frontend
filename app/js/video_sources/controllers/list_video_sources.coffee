@@ -2,16 +2,24 @@
 
 _ = require('lodash')
 
-module.exports = ($scope, $routeParams, VideoSource) ->
+module.exports = ($scope, $routeParams, $timeout, VideoSource) ->
   $scope.Services = ['youtube']
   $scope.LocationTypes =
     youtube: ['playlist', 'channel', 'video']
 
-  $scope.videoSources =
-    VideoSource.query
-      conference_slug: $routeParams.conferenceSlug
+  VideoSource.query
+    conference_slug: $routeParams.conferenceSlug
+  , then (sources) ->
+    $scope.videoSources = sources
+    _.each $scope.videoSources, (src) ->
+      if src.syncing
+        $scope.syncingSources.push src.id
+
+  $scope.$watchCollection 'syncingSources', ->
+    checkSyncing()
 
   $scope.videoSource = null
+  $scope.syncingSources = []
 
   $scope.add = ->
     resetForm()
@@ -32,7 +40,8 @@ module.exports = ($scope, $routeParams, VideoSource) ->
       src.id == id
     if source
       source.$sync().then ->
-        source.$syncing = true
+        source.syncing = true
+        $scope.syncingSources.push source.id
 
   $scope.save = ->
     if $scope.videoSource.isPersistent()
@@ -65,8 +74,20 @@ module.exports = ($scope, $routeParams, VideoSource) ->
       $scope.videoSources[index] = $scope.videoSource
     else
       $scope.videoSources.push $scope.videoSource
-    console.log $scope.videoSources.length
 
   resetForm = ->
     if $scope.videoSource
       $scope.cancel()
+
+  checkSyncing = ->
+    if _.any($scope.syncingSources)
+      VideoSource.query
+        conference_slug: $routeParams.conferenceSlug
+      , then (newSources) ->
+        _.each $scope.syncingSources, (sourceId) ->
+          source = _.find newSources, (src) ->
+            src.id == sourceId
+          unless source && source.syncing
+            $scope.syncingSources = _.without($scope.syncingSources, sourceId)
+        $scope.videoSources = newSources
+      $timeout(checkSyncing, 2000)

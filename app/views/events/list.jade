@@ -1,4 +1,4 @@
-div(ng-controller='ListEventsCtrl')
+div(ng-controller='ListEventsCtrl' ng-keyup='$event.keyCode == 27 && cancel()')
   .ui.selection.animated.list(ng-cloak=true)
     .item(ng-repeat='event in events track by event.id')
       .content
@@ -25,3 +25,6 @@ div(ng-controller='ListEventsCtrl')
           button.ui.button.mini.compact.negative(ng-click='destroy(event.id)')
             i.icon.trash
             | Delete
+  button.ui.button.compact(ng-click='add()')
+    i.plus.icon
+    | Add event
