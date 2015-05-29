@@ -31,6 +31,7 @@ App
   ])
 
 require('./main')
+require('./settings')
 require('./dashboard')
 require('./conferences')
 require('./videos')

@@ -12,13 +12,13 @@
   .field.fourteen.wide.required
     label Service
     select(ng-model='videoSource.service' ng-change='videoSource.location_type = ""')
-      option(ng-repeat='service in Services' value='{{ service }}' ng-selected='service == videoSource.service')
+      option(ng-repeat='service in services' value='{{ service }}' ng-selected='service == videoSource.service')
         | {{ service }}
   .field.fourteen.wide.required
     label Location
     .ui.left.labeled.input
       select(ng-model='videoSource.location_type')
-        option(ng-repeat='locationType in LocationTypes[videoSource.service]' value='{{ locationType }}' ng-selected='locationType == videoSource.location_type') {{ locationType }}
+        option(ng-repeat='locationType in locationTypes[videoSource.service]' value='{{ locationType }}' ng-selected='locationType == videoSource.location_type') {{ locationType }}
       input(type='text' value='{{ videoSource.location_value }}' ng-model='videoSource.location_value')
 
   .ui.hidden.divider

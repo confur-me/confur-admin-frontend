@@ -1,10 +1,8 @@
 'use strict'
 
-module.exports = ($scope, $routeParams, Conference) ->
-
-  $scope.conferenceTypes = [
-    'meetup', 'conference', 'lecture'
-  ]
+module.exports = ($scope, $routeParams, Conference, Setting) ->
+  Setting.get('conference.types').then (value) ->
+    $scope.conferenceTypes = (value || "").split(',')
 
   if conferenceSlug = $routeParams.conferenceSlug
     $scope.conference = Conference.find(conferenceSlug)

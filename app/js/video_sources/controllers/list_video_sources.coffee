@@ -2,10 +2,16 @@
 
 _ = require('lodash')
 
-module.exports = ($scope, $routeParams, $timeout, VideoSource) ->
-  $scope.Services = ['youtube']
-  $scope.LocationTypes =
-    youtube: ['playlist', 'channel', 'video']
+module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
+
+  $scope.locationTypes = {}
+  $scope.services = []
+
+  Setting.get('video_source.services').then (services) ->
+    $scope.services = (services || '').split(',')
+    _.each $scope.services, (service) ->
+      Setting.get('services.'+service+'.location_types').then (types) ->
+        $scope.locationTypes[service] = (types || '').split(',')
 
   VideoSource.query
     conference_slug: $routeParams.conferenceSlug

@@ -1,10 +1,9 @@
 'use strict'
 
 module.exports = ($scope, $route, $routeParams, $location) ->
-  $scope.$loading = true
   $scope.$route = $route
   $scope.$location = $location
   $scope.$routeParams = $routeParams
+  $scope.$flash = null
+  $scope.$error = null
   console.log 'Main ctrl'
-  $scope.flash = null
-  $scope.error = null
