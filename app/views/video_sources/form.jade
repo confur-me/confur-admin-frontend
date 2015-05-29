@@ -24,9 +24,11 @@
   .ui.hidden.divider
   .ui.buttons.tiny
     button.ui.button.positive(ng-click='save()')
+      i.icon.save
       | Save
     .or
     button.ui.button(ng-click='cancel()')
+      i.icon.ban
       | Cancel
 
   button.right.floated.ui.tiny.button.negative(ng-click='destroy()' ng-show='videoSource.isPersistent()')

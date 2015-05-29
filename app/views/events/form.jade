@@ -21,9 +21,11 @@
   .ui.hidden.divider
   .ui.buttons
     button.ui.button.positive(ng-click='save()')
+      i.icon.save
       | Save
     .or
     button.ui.button(ng-click='cancel()')
+      i.icon.ban
       | Cancel
 
     button.ui.button.floated.right.primary.animated(ng-click='sync()' ng-show='event.isPersistent()')

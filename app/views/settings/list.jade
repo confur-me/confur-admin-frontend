@@ -4,12 +4,12 @@
     table.ui.compact.very.basic.table
       thead
         tr
-          th.right.aligned Key
+          th Key
           th Value
           th
       tbody
-        tr(ng-repeat='setting in settings')
-          td.collapsing.right.aligned
+        tr(ng-repeat='setting in settings | orderBy:"key"')
+          td.collapsing
             .field
               label(ng-show='setting.isPersistent()') {{ setting.key }}
               input(
@@ -17,27 +17,27 @@
                 ng-value='setting.key' ng-model='setting.key'
                 ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }'
               )
-          td.collapsing
+          td
             .field
-              input(
-                placeholder='Value' ng-value='setting.value'
-                ng-model='setting.value' ng-change='setting.isChanged = true'
-                ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }'
-              )
+              .ui.corner.labeled.input
+                input(
+                  placeholder='Value' ng-value='setting.value'
+                  ng-model='setting.value' ng-change='setting.isChanged = true'
+                  ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }'
+                )
+                a.ui.corner.label(ng-show='setting.isPersistent() && setting.isChanged' ng-click='cancel(setting.key)')
+                  i.asterisk.icon
           td.collapsing
             button.ui.button.negative.compact.icon(ng-click='destroy(setting.key)')
               i.trash.icon
-            button.ui.button.icon.compact(ng-show='setting.isPersistent() && setting.isChanged' ng-click='cancel(setting.key)')
-              i.undo.icon
-              | Undo
       tfoot.full-width
         tr
-          th.right.aligned.collapsing
-            button.ui.button.right(ng-click='add()')
-              i.plus.icon
-              | Add
           th.collapsing
             button.ui.button.positive(ng-click='save()')
               i.save.icon
-              | Save settings
+              | Save
+          th
+            button.ui.button.right(ng-click='add()')
+              i.plus.icon
+              | Add
           th.collapsing

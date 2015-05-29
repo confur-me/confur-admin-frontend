@@ -61,9 +61,11 @@ form.ui.segment.form(ng-show='conference')
 
     .ui.buttons
       button.ui.positive.button(ng-click='save()')
+        i.icon.save
         | Save
       .or
       a.ui.button(href='/conferences')
+        i.icon.ban
         | Cancel
 
     button.ui.button.floated.right.primary.animated(ng-click='sync()' ng-show='conference.isPersistent()')
