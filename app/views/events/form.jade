@@ -1,22 +1,30 @@
 .ui.form(ng-class='{ error: event.$error }' style='min-height: 300px')
   .ui.error.message(ng-if='event.$error')
-    | Oh snap!
   .field.fourteen.wide.required
     label Conference
     select(ng-model='event.conference_slug' ng-dropdown='event.conference_slug')
       option(ng-repeat='conference in conferences' value='{{ conference.slug }}' ng-selected='conference.slug == event.conference_slug')
         | {{ conference.title }}
   .field
-    .ui.two.fields
+    label Title
+    input(type='text' ng-value='{{ event.title }}' ng-model='event.title')
+  .field
+    .ui.three.fields
       .field
         label Country
         input(type='text' ng-value='{{ event.country }}' ng-model='event.country')
       .field
         label State
         input(type='text' ng-value='{{ event.state }}' ng-model='event.state')
+      .field
+        label City
+        input(type='text' ng-value='{{ event.city }}' ng-model='event.city')
   .field
     label Address
     input(type='text' ng-value='{{ event.address }}' ng-model='event.address')
+  .field
+    label Description
+    textarea(type='text' value='{{ event.description }}' placeholder='Lorem ipsum...' ng-model='event.description')
 
   .ui.hidden.divider
   .ui.buttons

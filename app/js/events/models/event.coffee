@@ -14,6 +14,9 @@ module.exports = ($resource) ->
         params:
           conference_slug: '@conference_slug'
 
+  Event::isPersistent = ->
+    !!@id
+
   Event.find = (id) ->
     Event.get({id: id})
 

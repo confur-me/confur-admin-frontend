@@ -14,8 +14,6 @@ module.exports = ($scope, $routeParams, Event) ->
     else
       '/events/new'
 
-
-
   $scope.sync = (id) ->
     conf = _.find $scope.events, (src) ->
       src.id == id

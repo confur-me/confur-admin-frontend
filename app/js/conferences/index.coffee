@@ -2,6 +2,7 @@
 
 App = require('angular')
   .module('confur')
+  .factory('Setting', require('../settings/models/setting'))
   .factory('Conference', require('./models/conference'))
   .factory('VideoSource', require('../video_sources/models/video_source'))
   .factory('Video', require('../videos/models/video'))

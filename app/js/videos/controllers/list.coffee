@@ -5,6 +5,9 @@ module.exports = ($scope, $routeParams, Video) ->
     if $routeParams.conferenceSlug
       Video.byConference
         conference_slug: $routeParams.conferenceSlug
+    else if $routeParams.eventId
+      Video.byEvent
+        event_id: $routeParams.eventId
     else if $routeParams.tag
       Video.byTag
         Tag: $routeParams.tag

@@ -4,7 +4,7 @@ module.exports = ($scope, $routeParams, Conference, Setting) ->
   Setting.get('conference.types').then (value) ->
     $scope.conferenceTypes = (value || "").split(',')
 
-  $scope.conference = new Conference({})
+  $scope.conference = new Conference
 
   $scope.tab = $routeParams.tab || 'conference'
 
