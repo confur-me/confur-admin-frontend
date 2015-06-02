@@ -4,7 +4,7 @@ form.ui.segment.form(ng-show='event')
   .ui.purple.secondary.menu(ng-cloak=true)
     a.item(ng-href='/events/{{ event.id || "new" }}' ng-class='{ active: tab == "event" }')
       span(ng-if='event.isPersistent()' ng-cloak=true)
-        i.icon.student
+        i.icon.calendar
         | {{ event.title }}
       span(ng-if='!event.isPersistent()' ng-cloak=true)
         i.icon.file.outline

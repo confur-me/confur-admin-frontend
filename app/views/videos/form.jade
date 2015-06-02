@@ -1,0 +1,33 @@
+.ui.form(ng-class='{ error: video.$error }' style='min-height: 300px')
+  .ui.error.message(ng-if='video.$error')
+  .field
+    h4.ui.dividing.header
+      span(ng-if='video.isPersistent()') Edit video {{ video.id }}
+  .field
+    label Tags
+    input(type='text' ng-value='video.title' ng-model='video.title')
+  .field.fourteen.wide.required
+    label Service
+    select(ng-model='video.service' ng-change='video.location_type = ""')
+      option(ng-repeat='service in services' value='{{ service }}' ng-selected='service == video.service')
+        | {{ service }}
+  .field.fourteen.wide.required
+    label Location
+    .ui.left.labeled.input
+      select(ng-model='video.location_type')
+        option(ng-repeat='locationType in locationTypes[video.service]' value='{{ locationType }}' ng-selected='locationType == video.location_type') {{ locationType }}
+      input(type='text' value='{{ video.location_value }}' ng-model='video.location_value')
+
+  .ui.hidden.divider
+  .ui.buttons.tiny
+    button.ui.button.positive(ng-click='save()')
+      i.icon.save
+      | Save
+    .or
+    button.ui.button(ng-click='cancel()')
+      i.icon.ban
+      | Cancel
+
+  button.right.floated.ui.tiny.button.negative(ng-click='destroy()' ng-show='video.isPersistent()')
+    i.icon.trash
+    | Destroy

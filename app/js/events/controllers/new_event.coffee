@@ -13,8 +13,12 @@ module.exports = ($scope, $routeParams, Event, Conference) ->
 
   $scope.save = ->
     $scope.event.$save().then ->
-      $scope.$location.path('/events/'+$scope.event.slug)
+      $scope.$location.path(eventPath($scope.event))
       $scope.flash = 'SUCCESS'
     , (error) ->
       $scope.error = 'ERROR'
       $scope.event.error = error.data.error
+
+
+  eventPath = (event )->
+    '/events/'+event.id

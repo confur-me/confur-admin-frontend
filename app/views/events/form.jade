@@ -1,30 +1,39 @@
 .ui.form(ng-class='{ error: event.$error }' style='min-height: 300px')
   .ui.error.message(ng-if='event.$error')
-  .field.fourteen.wide.required
-    label Conference
-    select(ng-model='event.conference_slug' ng-dropdown='event.conference_slug')
-      option(ng-repeat='conference in conferences' value='{{ conference.slug }}' ng-selected='conference.slug == event.conference_slug')
-        | {{ conference.title }}
   .field
-    label Title
-    input(type='text' ng-value='{{ event.title }}' ng-model='event.title')
+    .ui.three.fields
+      .field.required
+        label Title
+        input(type='text' ng-value='event.title' ng-model='event.title' ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }')
+      .field.required
+        label Conference
+        select(ng-model='event.conference_slug' ng-dropdown='event.conference_slug')
+          option(ng-repeat='conference in conferences' ng-value='conference.slug' ng-selected='conference.slug == event.conference_slug')
+            | {{ conference.title }}
+      .field
+        label Starts at
+        .ui.two.fields
+          .field
+            input(type='date' ng-model='event.started_at' ng-value='event.started_at')
+          .field
+            input(type='time' ng-model='event.started_at' ng-value='event.started_at')
   .field
     .ui.three.fields
       .field
         label Country
-        input(type='text' ng-value='{{ event.country }}' ng-model='event.country')
+        input(type='text' ng-value='event.country' ng-model='event.country')
       .field
         label State
-        input(type='text' ng-value='{{ event.state }}' ng-model='event.state')
+        input(type='text' ng-value='event.state' ng-model='event.state')
       .field
         label City
-        input(type='text' ng-value='{{ event.city }}' ng-model='event.city')
+        input(type='text' ng-value='event.city' ng-model='event.city')
   .field
     label Address
-    input(type='text' ng-value='{{ event.address }}' ng-model='event.address')
+    input(type='text' ng-value='event.address' ng-model='event.address')
   .field
     label Description
-    textarea(type='text' value='{{ event.description }}' placeholder='Lorem ipsum...' ng-model='event.description')
+    textarea(type='text' value='event.description' placeholder='Lorem ipsum...' ng-model='event.description')
 
   .ui.hidden.divider
   .ui.buttons
@@ -36,13 +45,13 @@
       i.icon.ban
       | Cancel
 
-    button.ui.button.floated.right.primary.animated(ng-click='sync()' ng-show='event.isPersistent()')
-      .hidden.content
-        i.icon.refresh.white
-        | Sync
-      .visible.content
-        i.icon.refresh.white
-        | {{ event.synced_at | timeAgo }}
+  button.ui.button.floated.right.primary.animated(ng-click='sync()' ng-show='event.isPersistent()')
+    .hidden.content
+      i.icon.refresh.white
+      | Sync
+    .visible.content
+      i.icon.refresh.white
+      | {{ event.synced_at | timeAgo }}
 
   button.right.floated.ui.button.negative(ng-click='destroy()' ng-show='event.isPersistent()')
     i.icon.trash

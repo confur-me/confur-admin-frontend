@@ -25,7 +25,7 @@ form.ui.segment.form(ng-show='conference')
     .two.fields
       .field.required
         label Title
-        input(type='text' value='{{ conference.title }}' ng-model='conference.title')
+        input(type='text' value='{{ conference.title }}' ng-model='conference.title' ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }')
       .field.required
         label Slug
         input(type='text' value='{{ conference.slug }}' ng-model='conference.slug' ng-disabled='conference.isPersistent()')

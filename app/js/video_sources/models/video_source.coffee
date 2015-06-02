@@ -3,15 +3,23 @@
 module.exports = ($resource) ->
 
   VideoSource =
-    $resource '/api/conferences/:conference_slug/video_sources/:id',
-      id: '@id'
-      conference_slug: '@conference_slug'
-    ,
+    $resource '/video_sources/:id', id: '@id',
+      byEvent:
+        url: '/api/events/:event_id/video_sources'
+        isArray: true
+        method: 'GET'
+        params:
+          event_id: '@event_id'
+      byConference:
+        url: '/api/conferences/:conference_slug/video_sources'
+        isArray: true
+        method: 'GET'
+        params:
+          conference_slug: '@conference_slug'
       update:
         method: 'PUT'
       sync:
         method: 'POST'
-        url: '/api/conferences/:conference_slug/video_sources/:id/sync'
 
   VideoSource::isPersistent = ->
     !!@id

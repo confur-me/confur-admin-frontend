@@ -12,7 +12,6 @@ module.exports = ($scope, $routeParams, Event, Conference) ->
   $scope.save = () ->
     $scope.event.$update().then ->
       $scope.flash = 'Saved successfully'
-      #$scope.$location.path('/events/'+$scope.event.Slug)
     , (error) ->
       $scope.error = 'Error'
       $scope.event.error = error.data.error

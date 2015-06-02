@@ -13,11 +13,18 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
       Setting.get('services.'+service+'.location_types').then (types) ->
         $scope.locationTypes[service] = (types || '').split(',')
 
-  VideoSource.query
-    conference_slug: $routeParams.conferenceSlug
-  , then (sources) ->
-    $scope.videoSources = sources
-    _.each $scope.videoSources, (src) ->
+  $scope.videoSources =
+    if $routeParams.conferenceSlug
+      VideoSource.byConference
+        conference_slug: $routeParams.conferenceSlug
+    else if $routeParams.eventId
+      VideoSource.byEvent
+        event_id: $routeParams.eventId
+    else
+      VideoSource.query()
+
+  $scope.videoSources.$promise.then (sources) ->
+    _.each sources, (src) ->
       if src.syncing
         $scope.syncingSources.push src.id
 
@@ -29,11 +36,18 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
 
   $scope.add = ->
     resetForm()
+    conferenceSlug =
+      $routeParams.conferenceSlug ||
+      conference?.slug ||
+      event?.conference_slug
+    eventId =
+      $routeParams.eventId ||
+      event?.id
     $scope.videoSource =
       new VideoSource
         is_active: true
-        location_type: 'youtube'
-        conference_slug: $routeParams.conferenceSlug
+        conference_slug: conferenceSlug
+        event_id: eventId
 
   $scope.edit = (id) ->
     resetForm()
@@ -66,12 +80,12 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
   $scope.cancel = ->
     $scope.videoSource = null
 
-  #$scope.destroy = (videoSource) ->
-    #videoSource.$delete().then ->
-      #$scope.cancel(videoSource)
-    #, (error) ->
-      #videoSource.error = error.data.error
-      #updateCollection(videoSource)
+  $scope.destroy = () ->
+    $scope.videoSource.$delete().then ->
+      $scope.cancel()
+    , (error) ->
+      $scope.videoSource.error = error.data.error
+      updateCollection()
 
   updateCollection = ->
     index = _.findIndex $scope.videoSources, (src) ->
