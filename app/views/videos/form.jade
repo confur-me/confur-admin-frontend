@@ -1,22 +1,35 @@
-.ui.form(ng-class='{ error: video.$error }' style='min-height: 300px')
+.ui.form(ng-class='{ error: video.$error }')
   .ui.error.message(ng-if='video.$error')
   .field
     h4.ui.dividing.header
-      span(ng-if='video.isPersistent()') Edit video {{ video.id }}
+      span Edit video {{ video.id }}
+  .field.required
+    label Conference
+    input(type='text' ng-value='video.conference()' disabled=true)
+  .field(ng-show='video.event_id > 0')
+    label Event
+    input(type='text' ng-value='video.event()' disabled=true)
+  .field.required
+    label Title
+    input(type='text' ng-value='video.title' disabled=true)
+  .field.required
+    label Service
+    input(type='text' ng-value='video.service' disabled=true)
   .field
     label Tags
-    input(type='text' ng-value='video.title' ng-model='video.title')
-  .field.fourteen.wide.required
-    label Service
-    select(ng-model='video.service' ng-change='video.location_type = ""')
-      option(ng-repeat='service in services' value='{{ service }}' ng-selected='service == video.service')
-        | {{ service }}
-  .field.fourteen.wide.required
-    label Location
-    .ui.left.labeled.input
-      select(ng-model='video.location_type')
-        option(ng-repeat='locationType in locationTypes[video.service]' value='{{ locationType }}' ng-selected='locationType == video.location_type') {{ locationType }}
-      input(type='text' value='{{ video.location_value }}' ng-model='video.location_value')
+    .ui.tag.tiny.labels
+      .ui.purple.label(ng-repeat='tag in video.tags')
+        | {{ tag }}
+        i.icon.close(ng-click='removeTag(tag)')
+
+  .field
+    label Add tag
+    input(type='text' ng-model='autocomplete.tagQuery' ng-model-options='{ updateOn: "default", debounce: {"default": 300} }')
+    .autocomplete(ng-show='autocomplete.tags')
+      .ui.selection.animated.list
+        .item(ng-repeat='tag in autocomplete.tags' ng-click='addTag(tag.slug)')
+          i.icon.tag
+          | {{ tag.slug }}
 
   .ui.hidden.divider
   .ui.buttons.tiny
@@ -28,6 +41,13 @@
       i.icon.ban
       | Cancel
 
-  button.right.floated.ui.tiny.button.negative(ng-click='destroy()' ng-show='video.isPersistent()')
+  button.right.floated.ui.tiny.button.negative(ng-click='destroy(video.id)' ng-show='!video.deleted_at')
     i.icon.trash
     | Destroy
+  button.right.floated.ui.tiny.button.negative.animated(ng-click='restore(video.id)' ng-show='video.deleted_at')
+    .hidden.content
+      i.icon.undo
+      | Restore
+    .visible.content
+      i.icon.trash
+      | {{ video.deleted_at | timeAgo }}

@@ -3,6 +3,7 @@
 App = require('angular')
   .module('confur')
   .factory('Video', require('./models/video'))
+  .factory('Tag', require('../tags/models/tag'))
   .controller('VideosCtrl', require('./controllers/list'))
   .config ['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) ->
     $routeProvider.when '/videos',

@@ -1,5 +1,5 @@
 div(ng-controller='VideoSourcesCtrl' ng-keyup='$event.keyCode == 27 && cancel()')
-  .ui.right.attached.internal.rail.video-source__form.animate(ng-if='videoSource')
+  .sticky-form.right.animate(ng-if='videoSource')
     .ui.segment.raised
       ng-include(src='"/templates/video_sources/form.html"')
   .ui.selection.animated.list

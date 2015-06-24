@@ -1,8 +1,10 @@
 'use strict'
 
-module.exports = ($scope, $routeParams, Conference, Setting) ->
+module.exports = ($scope, $routeParams, Conference, Setting, Scope) ->
   Setting.get('conference.types').then (value) ->
     $scope.conferenceTypes = (value || "").split(',')
+
+  $scope.scopes = Scope.query()
 
   $scope.conference = new Conference
 

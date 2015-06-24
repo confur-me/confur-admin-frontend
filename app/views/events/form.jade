@@ -6,17 +6,21 @@
         label Title
         input(type='text' ng-value='event.title' ng-model='event.title' ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }')
       .field.required
-        label Conference
-        select(ng-model='event.conference_slug' ng-dropdown='event.conference_slug')
-          option(ng-repeat='conference in conferences' ng-value='conference.slug' ng-selected='conference.slug == event.conference_slug')
-            | {{ conference.title }}
+        label Conference {{ event.conference_slug }}
+        // ui-dropdown='event.conference_slug')
+        select(ng-model='event.conference_slug'
+          ng-options="conference.slug as conference.title for conference in conferences track by conference.slug")
+          //-option(ng-repeat='conference in conferences' ng-value='conference.slug' ng-selected='conference.slug == event.conference_slug')
+            //-| {{ conference.title }}
       .field
         label Starts at
         .ui.two.fields
           .field
-            input(type='date' ng-model='event.started_at' ng-value='event.started_at')
+            input(type='date' ng-model='event.starts_at_date' ng-value='event.starts_at')
           .field
-            input(type='time' ng-model='event.started_at' ng-value='event.started_at')
+            | {{ event.starts_at_date }}
+            | {{ event.starts_at_time }}
+            input(type='time' ng-model='event.starts_at_time' ng-value='event.starts_at')
   .field
     .ui.three.fields
       .field
@@ -33,11 +37,11 @@
     input(type='text' ng-value='event.address' ng-model='event.address')
   .field
     label Description
-    textarea(type='text' value='event.description' placeholder='Lorem ipsum...' ng-model='event.description')
+    textarea(type='text' ng-value='event.description' placeholder='Lorem ipsum...' ng-model='event.description')
 
   .ui.hidden.divider
   .ui.buttons
-    button.ui.button.positive(ng-click='save()')
+    button.ui.button.positive(ng-click='save()' ng-class='{ disabled: event.deleted_at }')
       i.icon.save
       | Save
     .or
@@ -45,7 +49,7 @@
       i.icon.ban
       | Cancel
 
-  button.ui.button.floated.right.primary.animated(ng-click='sync()' ng-show='event.isPersistent()')
+  button.ui.button.floated.right.primary.animated(ng-click='sync()' ng-show='event.isPersistent()' ng-class='{ disabled: event.deleted_at }')
     .hidden.content
       i.icon.refresh.white
       | Sync
@@ -53,6 +57,13 @@
       i.icon.refresh.white
       | {{ event.synced_at | timeAgo }}
 
-  button.right.floated.ui.button.negative(ng-click='destroy()' ng-show='event.isPersistent()')
+  button.right.floated.ui.button.negative(ng-click='destroy()' ng-show='event.isPersistent() && !event.deleted_at')
     i.icon.trash
     | Destroy
+  button.right.floated.ui.button.negative.animated(ng-click='restore()' ng-show='event.deleted_at')
+    .hidden.content
+      i.icon.undo
+      | Restore
+    .visible.content
+      i.icon.trash
+      | {{ event.deleted_at | timeAgo }}

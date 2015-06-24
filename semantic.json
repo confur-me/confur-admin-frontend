@@ -55,7 +55,8 @@
     "transition",
     "video",
     "form",
-    "visibility"
+    "visibility",
+    "sticky"
   ],
-  "version": "1.12.2"
+  "version": "1.12.3"
 }

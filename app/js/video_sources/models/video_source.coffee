@@ -3,7 +3,7 @@
 module.exports = ($resource) ->
 
   VideoSource =
-    $resource '/video_sources/:id', id: '@id',
+    $resource '/api/video_sources/:id', id: '@id',
       byEvent:
         url: '/api/events/:event_id/video_sources'
         isArray: true
@@ -20,6 +20,9 @@ module.exports = ($resource) ->
         method: 'PUT'
       sync:
         method: 'POST'
+        url: '/api/video_sources/:id/sync'
+        params:
+          id: '@id'
 
   VideoSource::isPersistent = ->
     !!@id

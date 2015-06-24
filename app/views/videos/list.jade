@@ -1,4 +1,7 @@
-div(ng-controller='VideosCtrl')
+div(ng-controller='VideosCtrl' ng-keyup='$event.keyCode == 27 && cancel()')
+  .sticky-form.right(ng-if='video')
+    .ui.segment.raised
+      ng-include(src='"/templates/videos/form.html"')
   .ui.grid.three.column.centered.grid
     .column(ng-repeat='video in videos track by video.id')
       .ui.fluid.card
@@ -10,7 +13,7 @@ div(ng-controller='VideosCtrl')
               | {{ video.conference_slug }}
             | {{ video.title | truncate: 70 }}
         .image
-          .ui.video(video='true' data-source='{{ video.service }}' data-id='{{ video.service_id }}' data-image='{{ video.thumbnail }}')
+          .ui.video(ui-video='true' data-source='{{ video.service }}' data-id='{{ video.service_id }}' data-image='{{ video.thumbnail }}')
         .content
           .description {{ video.description | truncate: 120 }}
           .meta
@@ -18,11 +21,14 @@ div(ng-controller='VideosCtrl')
         .extra.content
           .ui.left.floated
             i.icon.heart
-            | {{ video.likes_count }}
+            | {{ video.likes_count || 0 }}
           .ui.right.floated
             button.ui.button.mini.compact.basic(ng-click='edit(video.id)')
               i.icon.pencil
               | Edit
-            button.ui.button.mini.compact.negative(ng-click='destroy(video.id)')
+            button.ui.button.mini.compact.negative(ng-click='destroy(video.id)' ng-show='!video.deleted_at')
               i.icon.trash
               | Delete
+            button.ui.button.mini.compact.negative(ng-click='restore(video.id)' ng-show='video.deleted_at')
+              i.icon.undo
+              | Restore

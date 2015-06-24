@@ -4,28 +4,45 @@
     h4.ui.dividing.header
       span(ng-if='!videoSource.isPersistent()') New source
       span(ng-if='videoSource.isPersistent()') Edit source {{ videoSource.id }}
-  .field.fourteen.wide.required(ng-show='conference')
+  .field.required(ng-show='conference')
     label Conference
     input(ng-value='conference.title' disabled=true)
-  .field.fourteen.wide(ng-show='event')
+  .field(ng-show='event')
     label Event
     input(ng-value='event.title' disabled=true)
-  .field.fourteen.wide.required
+  .field.required
     label Service
     select(ng-model='videoSource.service' ng-change='videoSource.location_type = ""')
-      option(ng-repeat='service in services' value='{{ service }}' ng-selected='service == videoSource.service')
+      option(ng-repeat='service in services' ng-value='service' ng-selected='service == videoSource.service')
         | {{ service }}
-  .field.fourteen.wide.required
+  .field.required
     label Location
     .ui.left.labeled.input
       select(ng-model='videoSource.location_type')
-        option(ng-repeat='locationType in locationTypes[videoSource.service]' value='{{ locationType }}' ng-selected='locationType == videoSource.location_type') {{ locationType }}
-      input(type='text' value='{{ videoSource.location_value }}' ng-model='videoSource.location_value')
+        option(ng-repeat='locationType in locationTypes[videoSource.service]' ng-value='{{ locationType }}' ng-selected='locationType == videoSource.location_type') {{ locationType }}
+      input(type='text' ng-value='videoSource.location_value' ng-model='videoSource.location_value')
 
   .field
     .ui.toggle.checkbox(ng-checkbox='videoSource.is_active')
       input(type='checkbox' ng-checked='videoSource.is_active' value='true')
       label Active
+  .field
+    h4.ui.dividing.header Video attributes
+  .field
+    label Tags
+    .ui.tag.tiny.labels
+      .ui.purple.label(ng-repeat='tag in videoSource.videos_tags')
+        | {{ tag }}
+        i.icon.close(ng-click='removeTag(tag)')
+  .field
+    label Add tag
+    input(type='text' ng-model='autocomplete.tagQuery' ng-model-options='{ updateOn: "default", debounce: {"default": 300} }')
+    .autocomplete(ng-show='autocomplete.tags')
+      .ui.selection.animated.list
+        .item(ng-repeat='tag in autocomplete.tags' ng-click='addTag(tag.slug)')
+          i.icon.tag
+          | {{ tag.slug }}
+
   .ui.hidden.divider
   .ui.buttons.tiny
     button.ui.button.positive(ng-click='save()')

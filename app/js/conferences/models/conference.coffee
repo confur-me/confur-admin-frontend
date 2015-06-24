@@ -14,6 +14,9 @@ module.exports = ($resource) ->
       sync:
         method: 'POST'
         url: '/api/conferences/:slug/sync'
+      restore:
+        method: 'POST'
+        url: '/api/conferences/:slug/restore'
 
   Conference::isPersistent = ->
     !!@updated_at

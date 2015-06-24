@@ -2,6 +2,9 @@ div.ui.message.positive(ng-if='flash') {{ flash }}
 div.ui.message.negative(ng-if='error') {{ error }}
 form.ui.segment.form(ng-show='event')
   .ui.purple.secondary.menu(ng-cloak=true)
+    a.item(ng-href='{{ event.isPersistent() ? "/conferences/"+event.conference_slug : "#" }}' ng-class='{ disabled: !event.isPersistent() }')
+      i.icon.student
+      | {{ event.conference.title || "Conference" }}
     a.item(ng-href='/events/{{ event.id || "new" }}' ng-class='{ active: tab == "event" }')
       span(ng-if='event.isPersistent()' ng-cloak=true)
         i.icon.calendar

@@ -20,13 +20,19 @@
           .visible.content
             i.icon.heart
             | {{ conference.likes_count || 0 }}
-        button.ui.button.compact.primary.animated.tiny(ng-click='sync(conference.slug)')
+        button.ui.button.compact.primary.animated.tiny(ng-click='sync(conference.slug)' ng-class='{ disabled: conference.deleted_at }')
           .hidden.content
             i.icon.refresh.white
             | Sync
           .visible.content
             i.icon.refresh.white
             | {{ conference.synced_at | timeAgo }}
+        button.ui.button.compact.tiny.negative(ng-click='destroy(conference.slug)' ng-show='!conference.deleted_at')
+          i.icon.trash
+          | Delete
+        button.ui.button.compact.tiny.negative(ng-click='restore(conference.slug)' ng-show='conference.deleted_at')
+          i.icon.undo
+          | Restore
   a.ui.button(href='/conferences/new')
     i.plus.icon
     | New conference

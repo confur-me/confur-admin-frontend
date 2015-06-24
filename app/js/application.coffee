@@ -7,6 +7,7 @@ Angular = require('angular')
 require('./lib/angular-timeago')
 require('./lib/angular-truncate')
 require('./lib/angular-semantic-ui')
+require('./lib/angular-datetime')
 require('angular-loading-bar')
 
 App = Angular
@@ -18,7 +19,8 @@ App = Angular
     'angularTimeago',
     'angularTruncate',
     'ngSemanticUI',
-    'angular-loading-bar'
+    'angular-loading-bar',
+    'angularDatetime'
   ])
 
 App

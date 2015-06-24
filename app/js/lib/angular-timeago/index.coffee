@@ -6,5 +6,5 @@ Angular = require('angular')
 Angular
   .module('angularTimeago', [])
   .filter 'timeAgo', -> (date) ->
-    return if !date
+    return "never" if !date
     Timeago(date)

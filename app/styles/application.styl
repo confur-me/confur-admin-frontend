@@ -1,4 +1,5 @@
 @import _angular
+@import _autocomplete
 
 #loading-bar-spinner
   top: 42px
@@ -10,7 +11,12 @@
 .disabled-item
   opacity: 0.4
 
-.video-source__form
-  width: 330px !important
+.sticky-form
+  position: fixed
+  width: 400px !important
   background: white
   z-index: 9999
+  &.right
+    right: 0
+  &.left
+    left: 0

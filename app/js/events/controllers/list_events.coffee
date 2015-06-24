@@ -1,5 +1,7 @@
 'use strict'
 
+_ = require('lodash')
+
 module.exports = ($scope, $routeParams, Event) ->
   $scope.events =
     if $routeParams.conferenceSlug
@@ -19,3 +21,19 @@ module.exports = ($scope, $routeParams, Event) ->
       src.id == id
     if conf
       conf.$sync()
+
+  $scope.destroy = (id) ->
+    event = _.find $scope.events, (src) ->
+      src.id == id
+    return unless event
+    event.$delete().then ->
+      event.deleted_at = new Date()
+      $scope.flash = 'Deleted successfully'
+
+  $scope.restore = (id) ->
+    event = _.find $scope.events, (src) ->
+      src.id == id
+    return unless event
+    event.$restore().then ->
+      event.deleted_at = null
+      $scope.flash = 'Restored successfully'

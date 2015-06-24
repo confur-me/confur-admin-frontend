@@ -1,8 +1,32 @@
-div(ng-controller='ListEventsCtrl')
+div(ng-controller='ListEventsCtrl' ng-keyup='$event.keyCode == 27 && cancel()')
   .ui.selection.animated.list(ng-cloak=true)
     .item(ng-repeat='event in events | orderBy:"title" track by event.id')
       .ui.left.floated.compact(ng-click='$location.path("/events/" + event.id)')
         | {{ event.title | truncate: 70 }}
+      .ui.right.floated.compact
+        button.ui.button.compact.animated.tiny(ng-click='$location.path("/events/" + event.id + "/videos")')
+          .hidden.content Videos
+          .visible.content
+            i.icon.film
+            | {{ event.videos_count || 0 }}
+        button.ui.button.compact.animated.tiny
+          .hidden.content Likes
+          .visible.content
+            i.icon.heart
+            | {{ event.likes_count || 0 }}
+        button.ui.button.compact.primary.animated.tiny(ng-click='sync(event.id)' ng-class='{ disabled: !!event.deleted_at }')
+          .hidden.content
+            i.icon.refresh.white
+            | Sync
+          .visible.content
+            i.icon.refresh.white
+            | {{ event.synced_at | timeAgo }}
+        button.ui.button.compact.tiny.negative(ng-click='destroy(event.id)' ng-hide='event.deleted_at')
+          i.icon.trash
+          | Delete
+        button.ui.button.compact.tiny.negative(ng-click='restore(event.id)' ng-show='event.deleted_at')
+          i.icon.undo
+          | Restore
 
   a.ui.button(ng-href='{{ linkToNewEvent }}')
     i.plus.icon

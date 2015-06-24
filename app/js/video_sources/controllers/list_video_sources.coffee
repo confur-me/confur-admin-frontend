@@ -35,7 +35,7 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
   $scope.syncingSources = []
 
   $scope.add = ->
-    resetForm()
+    $scope.cancel()
     conferenceSlug =
       $routeParams.conferenceSlug ||
       conference?.slug ||
@@ -50,7 +50,7 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
         event_id: eventId
 
   $scope.edit = (id) ->
-    resetForm()
+    $scope.cancel()
     index = _.findIndex $scope.videoSources, (src) ->
       src.id == id
     $scope.videoSource = angular.copy($scope.videoSources[index])
@@ -78,11 +78,13 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
         $scope.videoSource.$error = true
 
   $scope.cancel = ->
+    console.log "canceling"
     $scope.videoSource = null
 
-  $scope.destroy = () ->
+  $scope.destroy = ->
     $scope.videoSource.$delete().then ->
       $scope.cancel()
+      updateCollection()
     , (error) ->
       $scope.videoSource.error = error.data.error
       updateCollection()
@@ -95,19 +97,24 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
     else
       $scope.videoSources.push $scope.videoSource
 
-  resetForm = ->
-    if $scope.videoSource
-      $scope.cancel()
-
   checkSyncing = ->
     if _.any($scope.syncingSources)
-      VideoSource.query
-        conference_slug: $routeParams.conferenceSlug
-      , then (newSources) ->
-        _.each $scope.syncingSources, (sourceId) ->
-          source = _.find newSources, (src) ->
-            src.id == sourceId
-          unless source && source.syncing
-            $scope.syncingSources = _.without($scope.syncingSources, sourceId)
-        $scope.videoSources = newSources
+      if $routeParams.conferenceSlug
+        VideoSource.byConference
+          conference_slug: $routeParams.conferenceSlug
+        , then (sources) ->
+          refreshSyncing(sources)
+      else if $routeParams.eventId
+        VideoSource.byEvent
+          event_id: $routeParams.eventId
+        , then (sources) ->
+          refreshSyncing(sources)
       $timeout(checkSyncing, 2000)
+
+  refreshSyncing = (sources) ->
+    _.each $scope.syncingSources, (sourceId) ->
+      source = _.find sources, (src) ->
+        src.id == sourceId
+      unless source && source.syncing
+        $scope.syncingSources = _.without($scope.syncingSources, sourceId)
+    $scope.videoSources = sources

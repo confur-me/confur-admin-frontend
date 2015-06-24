@@ -12,6 +12,7 @@ module.exports = ($scope, $routeParams, Event, Conference) ->
   $scope.tab = $routeParams.tab || 'event'
 
   $scope.save = ->
+    $scope.event.combineDateTime()
     $scope.event.$save().then ->
       $scope.$location.path(eventPath($scope.event))
       $scope.flash = 'SUCCESS'
