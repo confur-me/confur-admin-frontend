@@ -5,10 +5,10 @@ $ = require('jquery')
 module.exports = ($document) ->
   restrict: 'A'
   scope:
-    ngCheckbox: '=',
+    uiCheckbox: '=',
   link: (scope, element, attributes) ->
     $document.ready ->
       $(element).checkbox()
-    element.bind 'change', (changeEvent) ->
-      scope.$apply ->
-        scope.ngCheckbox = !scope.ngCheckbox
+      element.bind 'change', (changeEvent) ->
+        scope.$apply ->
+          scope.uiCheckbox = !scope.uiCheckbox

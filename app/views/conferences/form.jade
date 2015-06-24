@@ -41,7 +41,6 @@ form.ui.segment.form(ng-show='conference')
         .field.required
           label Scope
           select.ui.dropdown(ng-model='conference.scope' ui-dropdown=true)
-            option(value='') Scope
             option(ng-repeat='scope in scopes' ng-value='scope.slug' ng-selected='scope.slug == conference.scope')
               | {{ scope.title }}
       .two.fields
@@ -52,16 +51,17 @@ form.ui.segment.form(ng-show='conference')
               placeholder='http://' ng-model='conference.url')
 
           .field.inline
-            .ui.toggle.checkbox(ng-checkbox='conference.is_active')
-              input(type='radio' ng-checked='conference.is_active' value='true')
-              label Show on site
-        .field(ng-show='false')
+            .ui.toggle.checkbox(ui-checkbox='conference.is_active')
+              input(type='checkbox' ng-checked='conference.is_active' value='true')
+              label Active
+        .field
           .two.fields
             .field
-              label Image
-              //-img.ui.small.rounded.image(src='')
+              label Thumbnail
+              input(type='text' ng-value='conference.thumbnail' placeholder='http://' ng-model='conference.thumbnail' ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }')
+              i Note: use zhf.io to store uploads
             .field
-              a.ui.button(href='#') Upload image
+              img.ui.small.rounded.image(ng-src='{{ conference.thumbnail }}' ng-show='conference.thumbnail')
 
       .field
         label Description

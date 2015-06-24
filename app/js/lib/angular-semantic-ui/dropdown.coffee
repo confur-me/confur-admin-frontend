@@ -5,7 +5,7 @@ $ = require('jquery')
 module.exports = ($document, $timeout) ->
   restrict: 'A'
   scope:
-    ngDropdown: '='
+    uiDropdown: '='
   link: (scope, element, attributes) ->
     $document.ready ->
       $timeout ->

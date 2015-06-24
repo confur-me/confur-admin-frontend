@@ -2,7 +2,7 @@
   h3.ui.header Conferences
   .ui.selection.animated.list(ng-cloak=true)
     .item(ng-repeat='conference in conferences | orderBy:\'slug\' track by conference.slug')
-      .ui.left.floated.compact(ng-click='$location.path("/conferences/" + conference.slug)')
+      .ui.left.floated.compact(ng-click='$location.path("/conferences/" + conference.slug)' ng-class='{ "disabled-item": !conference.is_active }')
         | {{ conference.title }}
       .ui.right.floated.compact
         button.ui.button.compact.animated.tiny(ng-click='$location.path("/conferences/" + conference.slug + "/events")')

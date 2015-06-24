@@ -6,12 +6,10 @@
         label Title
         input(type='text' ng-value='event.title' ng-model='event.title' ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }')
       .field.required
-        label Conference {{ event.conference_slug }}
-        // ui-dropdown='event.conference_slug')
-        select(ng-model='event.conference_slug'
-          ng-options="conference.slug as conference.title for conference in conferences track by conference.slug")
-          //-option(ng-repeat='conference in conferences' ng-value='conference.slug' ng-selected='conference.slug == event.conference_slug')
-            //-| {{ conference.title }}
+        label Conference
+        select.ui.dropdown(ui-dropdown=true ng-model='event.conference_slug')
+          option(ng-repeat='conference in conferences' ng-value='conference.slug' ng-selected='conference.slug == event.conference_slug')
+            | {{ conference.title }}
       .field
         label Starts at
         .ui.two.fields
@@ -35,6 +33,10 @@
   .field
     label Address
     input(type='text' ng-value='event.address' ng-model='event.address')
+  .field
+    .ui.toggle.checkbox(ui-checkbox='event.is_active')
+      input(type='checkbox' ng-checked='event.is_active' value='true')
+      label Active
   .field
     label Description
     textarea(type='text' ng-value='event.description' placeholder='Lorem ipsum...' ng-model='event.description')
