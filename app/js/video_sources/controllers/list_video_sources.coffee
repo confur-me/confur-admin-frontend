@@ -37,15 +37,18 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting, Tag) ->
   $scope.add = ->
     $scope.cancel()
     conferenceSlug =
-      $routeParams.conferenceSlug ||
-      conference?.slug ||
-      event?.conference_slug
+      if $routeParams.conferenceSlug
+        parseInt($routeParams.conferenceSlug, 10)
+      else
+        $scope.conference?.slug || $scope.event?.conference_slug
     eventId =
-      $routeParams.eventId ||
-      event?.id
+      if $routeParams.eventId
+        parseInt($routeParams.eventId, 10)
+      else
+        $scope.event?.id
     scope =
-      event?.scope ||
-      conference?.scope
+      $scope.event?.scope ||
+      $scope.conference?.scope
     $scope.videoSource =
       new VideoSource
         is_active: true

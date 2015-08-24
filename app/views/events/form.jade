@@ -10,15 +10,15 @@
         select.ui.dropdown(ui-dropdown=true ng-model='event.conference_slug')
           option(ng-repeat='conference in conferences' ng-value='conference.slug' ng-selected='conference.slug == event.conference_slug')
             | {{ conference.title }}
-      .field
-        label Starts at
-        .ui.two.fields
-          .field
-            input(type='date' ng-model='event.starts_at_date' ng-value='event.starts_at')
-          .field
-            | {{ event.starts_at_date }}
-            | {{ event.starts_at_time }}
-            input(type='time' ng-model='event.starts_at_time' ng-value='event.starts_at')
+      //-.field
+        //-label Starts at
+        //-.ui.two.fields
+          //-.field
+            //-input(type='date' ng-model='event.starts_at_date' ng-value='event.starts_at')
+          //-.field
+            //-| {{ event.starts_at_date }}
+            //-| {{ event.starts_at_time }}
+            //-input(type='time' ng-model='event.starts_at_time' ng-value='event.starts_at')
   .field
     .ui.three.fields
       .field
