@@ -23,14 +23,15 @@
     "gulp-coffee": "^2.3.1",
     "gulp-jade": "^1.0.0",
     "gulp-less": "^3.0.3",
+    "gulp-minify-css": "^0.5.1",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-stylus": "^2.0.1",
+    "gulp-symlink": "^2.1.2",
     "gulp-util": "^3.0.4",
     "gulp-watch": "^4.2.4",
-    "gulp-minify-css": "^0.5.1",
-    "semantic-ui": "^1.12.2",
     "jade": "^1.9.2",
+    "semantic-ui": "^1.12.2",
     "stylus": "^0.51.1"
   },
   "dependencies": {

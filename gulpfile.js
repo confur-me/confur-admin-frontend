@@ -3,21 +3,22 @@
 /**
  * Dependencies
  */
-var path         = require('path');
-var gulp         = require('gulp');
-var stylus       = require('gulp-stylus');
-var less         = require('gulp-less');
-var coffee       = require('gulp-coffee');
-var gutil        = require('gulp-util');
-var gulpJade     = require('gulp-jade');
-var jade         = require('jade');
-var autoprefixer = require('gulp-autoprefixer');
-var sourcemaps   = require('gulp-sourcemaps');
-var watch        = require('gulp-watch');
-var browserify   = require('gulp-browserify');
-var rename       = require('gulp-rename');
-var pkg          = require('./package');
-var dependencies = Object.keys(pkg.dependencies);
+var path         = require('path'),
+    gulp         = require('gulp'),
+    stylus       = require('gulp-stylus'),
+    less         = require('gulp-less'),
+    coffee       = require('gulp-coffee'),
+    gutil        = require('gulp-util'),
+    gulpJade     = require('gulp-jade'),
+    jade         = require('jade'),
+    autoprefixer = require('gulp-autoprefixer'),
+    sourcemaps   = require('gulp-sourcemaps'),
+    watch        = require('gulp-watch'),
+    browserify   = require('gulp-browserify'),
+    rename       = require('gulp-rename'),
+    symlink      = require('gulp-symlink'),
+    pkg          = require('./package'),
+    dependencies = Object.keys(pkg.dependencies);
 
 var appCss          = './app/styles/application.styl';
 var cssGlob         = './app/styles/**/*.styl';
@@ -149,8 +150,21 @@ gulp.task('watch-jade', function() {
   });
 });
 
+gulp.task('symlinks', function () {
+  return gulp.src([
+    './public/templates/index.html',
+    './public/templates/errors/404.html',
+    './public/templates/errors/500.html'
+    ], { read: false })
+    .pipe(symlink([
+        './public/index.html',
+        './public/404.html',
+        './public/500.html'
+        ], { force: true }))
+});
+
 gulp.task('semantic', ['semantic:js', 'semantic:css', 'semantic:fonts']);
-gulp.task('app', ['app:js', 'app:css', 'jade']);
+gulp.task('app', ['app:js', 'app:css', 'jade', 'symlinks']);
 gulp.task('vendor', ['vendor:js', 'vendor:css']);
 gulp.task('default', ['semantic', 'app', 'vendor']);
 gulp.task('watch', ['default', 'watch-js', 'watch-css', 'watch-jade']);
