@@ -1,7 +1,8 @@
 'use strict'
 
-module.exports = ($resource) ->
+_ = require('lodash')
 
+module.exports = ($resource) ->
   VideoSource =
     $resource '/api/video_sources/:id', id: '@id',
       byEvent:
@@ -26,5 +27,14 @@ module.exports = ($resource) ->
 
   VideoSource::isPersistent = ->
     !!@id
+
+  VideoSource::init = ->
+    @parseTags()
+
+  VideoSource::parseTags = ->
+    @tags = _.without(@videos_tags.split(","), "")
+
+  VideoSource::combineTags = ->
+    @videos_tags = (@tags || []).join(",")
 
   VideoSource

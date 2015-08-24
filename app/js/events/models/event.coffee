@@ -18,7 +18,6 @@ module.exports = ($resource) ->
         url: '/api/events/:id/restore'
 
   Event::init = ->
-    console.log "init"
     @parseStartsAt()
 
   Event::isPersistent = ->

@@ -2,10 +2,13 @@
 
 _ = require('lodash')
 
-module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
+module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting, Tag) ->
 
   $scope.locationTypes = {}
   $scope.services = []
+  $scope.autocomplete = {}
+  $scope.videoSource = null
+  $scope.syncingSources = []
 
   Setting.get('video_source.services').then (services) ->
     $scope.services = (services || '').split(',')
@@ -31,9 +34,6 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
   $scope.$watchCollection 'syncingSources', ->
     checkSyncing()
 
-  $scope.videoSource = null
-  $scope.syncingSources = []
-
   $scope.add = ->
     $scope.cancel()
     conferenceSlug =
@@ -43,17 +43,22 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
     eventId =
       $routeParams.eventId ||
       event?.id
+    scope =
+      event?.scope ||
+      conference?.scope
     $scope.videoSource =
       new VideoSource
         is_active: true
         conference_slug: conferenceSlug
         event_id: eventId
+        scope: scope
 
   $scope.edit = (id) ->
     $scope.cancel()
     index = _.findIndex $scope.videoSources, (src) ->
       src.id == id
     $scope.videoSource = angular.copy($scope.videoSources[index])
+    $scope.videoSource.init()
 
   $scope.sync = (id) ->
     source = _.find $scope.videoSources, (src) ->
@@ -64,6 +69,7 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
         $scope.syncingSources.push source.id
 
   $scope.save = ->
+    $scope.videoSource.combineTags()
     if $scope.videoSource.isPersistent()
       $scope.videoSource.$update().then ->
         updateCollection()
@@ -78,7 +84,6 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
         $scope.videoSource.$error = true
 
   $scope.cancel = ->
-    console.log "canceling"
     $scope.videoSource = null
 
   $scope.destroy = ->
@@ -118,3 +123,26 @@ module.exports = ($scope, $routeParams, $timeout, VideoSource, Setting) ->
       unless source && source.syncing
         $scope.syncingSources = _.without($scope.syncingSources, sourceId)
     $scope.videoSources = sources
+
+  $scope.$watch 'autocomplete.tagQuery', (q) ->
+    $scope.autocomplete.tags = []
+    if q?.length > 0
+      Tag.search({q: q}).$promise.then (tags) ->
+        # TODO: refactor
+        _.each tags, (tag) ->
+          unless _.include $scope.videoSource.tags, tag.slug
+            $scope.autocomplete.tags.push tag
+
+  $scope.addTag = (tag) ->
+    if $scope.videoSource
+      $scope.videoSource.tags ||= []
+      $scope.videoSource.tags.push tag
+    resetAutocomplete()
+
+  $scope.removeTag = (tag) ->
+    if $scope.videoSource
+      $scope.videoSource.tags ||= []
+      $scope.videoSource.tags = _.without($scope.videoSource.tags, tag)
+
+  resetAutocomplete = ->
+    $scope.autocomplete = {}

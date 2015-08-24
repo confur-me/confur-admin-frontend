@@ -122,15 +122,6 @@ gulp.task('jade', function () {
     .pipe(gulp.dest(outputTemplatesDir))
 });
 
-gulp.task('jade', function () {
-  return gulp.src(jadeGlob)
-    .pipe(gulpJade({
-      jade: jade,
-      pretty: true
-    }))
-    .pipe(gulp.dest(outputTemplatesDir))
-});
-
 // watch for css
 gulp.task('watch-css', function() {
   gulp.watch(cssGlob,

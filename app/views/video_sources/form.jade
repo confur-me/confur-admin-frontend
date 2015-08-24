@@ -31,7 +31,7 @@
   .field
     label Tags
     .ui.tag.tiny.labels
-      .ui.purple.label(ng-repeat='tag in videoSource.videos_tags')
+      .ui.purple.label(ng-repeat='tag in videoSource.tags')
         | {{ tag }}
         i.icon.close(ng-click='removeTag(tag)')
   .field

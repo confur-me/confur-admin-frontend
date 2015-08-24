@@ -1,0 +1,17 @@
+div.ui.message.positive(ng-if='flash') {{ flash }}
+div.ui.message.negative(ng-if='error') {{ error }}
+form.ui.segment.form(ng-show='tag')
+  .ui.purple.secondary.menu(ng-cloak=true)
+    a.item(ng-href='/tags/{{ tag.slug || "new" }}' ng-class='{ active: tab == "tag" }')
+      span(ng-if='tag.isPersistent()' ng-cloak=true)
+        i.icon.tag
+        | {{ tag.slug }}
+      span(ng-if='!tag.isPersistent()' ng-cloak=true)
+        i.icon.file.outline
+        | New tag
+    a.item(ng-href='{{ tag.isPersistent() ? "/tags/"+tag.slug+"/videos" : "#" }}' ng-class='{ active: tab == "videos", disabled: !tag.isPersistent() }')
+      i.icon.film
+      | Videos
+      .ui.label.inverted(ng-show='tag.isPersistent()') {{ tag.videos_count || 0 }}
+  div(ng-if='tab == "tag"' ng-include='"/templates/tags/form"')
+  div(ng-if='tab == "videos"' ng-include='"/templates/videos/list"')

@@ -1,0 +1,21 @@
+div(ng-controller='ListTagsCtrl' ng-keyup='$tag.keyCode == 27 && cancel()')
+  .ui.selection.animated.list(ng-cloak=true)
+    .item(ng-repeat='tag in tags | orderBy:"slug" track by tag.slug')
+      .ui.left.floated.compact(ng-click='$location.path("/tags/" + tag.slug)' ng-class='{ "disabled-item": tag.deleted_at }')
+        | {{ tag.slug }}
+      .ui.right.floated.compact
+        button.ui.button.compact.animated.tiny(ng-click='$location.path("/tags/" + tag.slug + "/videos")')
+          .hidden.content Videos
+          .visible.content
+            i.icon.film
+            | {{ tag.videos_count || 0 }}
+        button.ui.button.compact.tiny.negative(ng-click='destroy(tag.slug)' ng-hide='tag.deleted_at')
+          i.icon.trash
+          | Delete
+        button.ui.button.compact.tiny.negative(ng-click='restore(tag.slug)' ng-show='tag.deleted_at')
+          i.icon.undo
+          | Restore
+
+  a.ui.button(href='/tags/new')
+    i.plus.icon
+    | New tag

@@ -4,7 +4,7 @@ div(ng-controller='VideosCtrl' ng-keyup='$event.keyCode == 27 && cancel()')
       ng-include(src='"/templates/videos/form.html"')
   .ui.grid.three.column.centered.grid
     .column(ng-repeat='video in videos track by video.id')
-      .ui.fluid.card
+      .ui.fluid.card(ng-class='{ "disabled-item": video.deleted_at }')
         .content
           .header
             a.ui.corner.label(ng-href='{{ "/conferences/" + video.conference_slug + "/video_sources" }}')

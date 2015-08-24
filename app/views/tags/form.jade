@@ -1,0 +1,28 @@
+.ui.form(ng-class='{ error: tag.$error }' style='min-height: 300px')
+  .ui.error.message(ng-if='tag.$error')
+  .field
+    .ui.three.fields
+      .field.required
+        label Slug
+        input(type='text' ng-value='tag.slug' ng-model='tag.slug' ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }' ng-disabled='tag.isPersistent()')
+
+  .ui.hidden.divider
+  .ui.buttons
+    button.ui.button.positive(ng-click='save()' ng-class='{ disabled: tag.deleted_at }')
+      i.icon.save
+      | Save
+    .or
+    a.ui.button(href='/tags')
+      i.icon.ban
+      | Cancel
+
+  button.right.floated.ui.button.negative(ng-click='destroy()' ng-show='tag.isPersistent() && !tag.deleted_at')
+    i.icon.trash
+    | Destroy
+  button.right.floated.ui.button.negative.animated(ng-click='restore()' ng-show='tag.deleted_at')
+    .hidden.content
+      i.icon.undo
+      | Restore
+    .visible.content
+      i.icon.trash
+      | {{ tag.deleted_at | timeAgo }}

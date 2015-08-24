@@ -1,11 +1,11 @@
 'use strict'
 
 module.exports = ($scope, $routeParams, Event, Conference) ->
-  $scope.event =
-    if $routeParams.conferenceSlug
-      new Event(conference_slug: $routeParams.conferenceSlug)
-    else
-      new Event
+  defaultParams = { is_active: false }
+
+  $scope.event = new Event(defaultParams)
+  if $routeParams.conferenceSlug
+    $scope.event.conference_slug = $routeParams.conferenceSlug
 
   $scope.conferences = Conference.query()
 

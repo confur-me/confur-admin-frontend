@@ -2,7 +2,9 @@
 
 _ = require('lodash')
 
-module.exports = ($scope, $routeParams, Video, Tag) ->
+module.exports = ($scope, $routeParams, Video, Tag, Setting) ->
+  Setting.get('video.languages').then (languages) ->
+    $scope.Languages = (languages || '').split(',')
 
   $scope.autocomplete = {}
   $scope.video = null

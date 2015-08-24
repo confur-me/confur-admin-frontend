@@ -38,6 +38,7 @@ require('./dashboard')
 require('./conferences')
 require('./videos')
 require('./events')
+require('./tags')
 
 jQuery ->
   console.log "Page loaded"
