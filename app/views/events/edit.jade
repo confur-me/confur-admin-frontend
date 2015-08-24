@@ -19,6 +19,6 @@ form.ui.segment.form(ng-show='event')
     a.item(ng-href='{{ event.isPersistent() ? "/events/"+event.id+"/video_sources" : "#" }}' ng-class='{ active: tab == "video_sources", disabled: !event.isPersistent() }')
       i.icon.database
       | Video sources
-  div(ng-if='tab == "event"' ng-include='"/templates/events/form"')
-  div(ng-if='tab == "videos"' ng-include='"/templates/videos/list"')
-  div(ng-if='tab == "video_sources"' ng-include='"/templates/video_sources/list"')
+  div(ng-if='tab == "event"' ng-include='"/templates/events/form.html"')
+  div(ng-if='tab == "videos"' ng-include='"/templates/videos/list.html"')
+  div(ng-if='tab == "video_sources"' ng-include='"/templates/video_sources/list.html"')

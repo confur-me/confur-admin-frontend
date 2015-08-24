@@ -13,5 +13,5 @@ form.ui.segment.form(ng-show='tag')
       i.icon.film
       | Videos
       .ui.label.inverted(ng-show='tag.isPersistent()') {{ tag.videos_count || 0 }}
-  div(ng-if='tab == "tag"' ng-include='"/templates/tags/form"')
-  div(ng-if='tab == "videos"' ng-include='"/templates/videos/list"')
+  div(ng-if='tab == "tag"' ng-include='"/templates/tags/form.html"')
+  div(ng-if='tab == "videos"' ng-include='"/templates/videos/list.html"')
