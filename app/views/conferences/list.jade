@@ -1,5 +1,8 @@
 .ui.segment
-  h3.ui.header Conferences
+  .ui.clearing.segment.basic
+    h3.ui.left.floated.header Conferences
+    h5.ui.right.floated.header
+      ng-include(src="'/templates/shared/_search_form.html'")
   .ui.selection.animated.list(ng-cloak=true)
     .item(ng-repeat='conference in conferences | orderBy:\'slug\' track by conference.slug')
       .ui.left.floated.compact(ng-click='$location.path("/conferences/" + conference.slug)' ng-class='{ "disabled-item": !conference.is_active }')

@@ -10,6 +10,9 @@ module.exports = ($scope, $routeParams, Event) ->
     else
       Event.query()
 
+  $scope.search = (query) ->
+    $scope.events = Event.query(q: query)
+
   $scope.linkToNewEvent =
     if $routeParams.conferenceSlug
       '/conferences/'+$routeParams.conferenceSlug+'/events/new'

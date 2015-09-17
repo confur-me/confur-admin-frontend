@@ -8,6 +8,7 @@ module.exports = ($scope, $routeParams, Video, Tag, Setting) ->
 
   $scope.autocomplete = {}
   $scope.video = null
+
   $scope.videos =
     if $routeParams.conferenceSlug
       Video.byConference
@@ -20,6 +21,9 @@ module.exports = ($scope, $routeParams, Video, Tag, Setting) ->
         Tag: $routeParams.tag
     else
       Video.query()
+
+  $scope.search = (query) ->
+    $scope.videos = Video.query(q: query)
 
   $scope.edit = (id) ->
     $scope.cancel()

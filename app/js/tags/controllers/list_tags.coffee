@@ -5,6 +5,9 @@ _ = require('lodash')
 module.exports = ($scope, Tag) ->
   $scope.tags = Tag.query()
 
+  $scope.search = (query) ->
+    $scope.tags = Tag.query(q: query)
+
   $scope.destroy = (slug) ->
     tag = _.find $scope.tags, (src) ->
       src.slug == slug

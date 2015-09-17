@@ -1,3 +1,6 @@
 .ui.segment
-  h3.ui.header Events
+  .ui.clearing.segment.basic
+    h3.ui.left.floated.header Events
+    h5.ui.right.floated.header
+      ng-include(src="'/templates/shared/_search_form.html'")
   ng-include(src='"/templates/events/list.html"')

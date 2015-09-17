@@ -21,6 +21,8 @@ App = Angular
     'ngSemanticUI',
     'angular-loading-bar',
     'angularDatetime'
+    #,
+    #'bgf.paginateAnything'
   ])
 
 App
