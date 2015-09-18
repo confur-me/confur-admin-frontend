@@ -26,10 +26,10 @@ module.exports = ($scope, $routeParams, Event) ->
       '/events/new'
 
   $scope.sync = (id) ->
-    conf = _.find $scope.events, (src) ->
+    event = _.find $scope.events, (src) ->
       src.id == id
-    if conf
-      conf.$sync()
+    if event
+      event.$sync()
 
   $scope.destroy = (id) ->
     event = _.find $scope.events, (src) ->

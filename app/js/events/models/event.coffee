@@ -13,6 +13,9 @@ module.exports = ($resource) ->
         url: '/api/conferences/:conference_slug/events'
         params:
           conference_slug: '@conference_slug'
+      sync:
+        method: 'POST'
+        url: '/api/events/:id/sync'
       restore:
         method: 'POST'
         url: '/api/events/:id/restore'
