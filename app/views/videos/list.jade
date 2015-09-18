@@ -1,6 +1,10 @@
 div(ng-controller='VideosCtrl' ng-keyup='$event.keyCode == 27 && cancel()')
-  .ui.segment.basic(ng-hide='conference')
-    ng-include(src="'/templates/shared/_search_form.html'")
+  .ui.secondary.pointing.menu
+    .item
+      h3 Videos
+    .right.menu
+      .item
+        ng-include(src="'/templates/shared/_search_form.html'")
   .sticky-form.right(ng-if='video')
     .ui.segment.raised
       ng-include(src='"/templates/videos/form.html"')

@@ -11,7 +11,13 @@ module.exports = ($scope, $routeParams, Event) ->
       Event.query()
 
   $scope.search = (query) ->
-    $scope.events = Event.query(q: query)
+    $scope.events =
+      if $routeParams.conferenceSlug
+        Event.byConference
+          conference_slug: $routeParams.conferenceSlug
+          q: query
+      else
+        Event.query(q: query)
 
   $scope.linkToNewEvent =
     if $routeParams.conferenceSlug

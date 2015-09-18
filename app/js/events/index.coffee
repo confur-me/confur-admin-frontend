@@ -6,13 +6,14 @@ App = require('angular')
   .factory('Event', require('./models/event'))
   .factory('VideoSource', require('../video_sources/models/video_source'))
   .factory('Video', require('../videos/models/video'))
+  .controller('IndexEventsCtrl', require('./controllers/index_events'))
   .controller('ListEventsCtrl', require('./controllers/list_events'))
   .controller('NewEventCtrl', require('./controllers/new_event'))
   .controller('EditEventCtrl', require('./controllers/edit_event'))
   .config ['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) ->
     $routeProvider.when '/events',
       templateUrl: '/templates/events/index.html'
-      controller: 'ListEventsCtrl'
+      controller: 'IndexEventsCtrl'
 
     $routeProvider.when '/events/new',
       templateUrl: '/templates/events/edit.html'

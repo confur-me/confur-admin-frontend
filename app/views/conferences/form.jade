@@ -1,98 +1,99 @@
 div.ui.message.positive(ng-if='flash') {{ flash }}
 div.ui.message.negative(ng-if='error') {{ error }}
-form.ui.segment.form(ng-show='conference')
-  .ui.purple.secondary.menu(ng-cloak=true)
-    a.item(ng-href='/conferences/{{ conference.slug || "new" }}' ng-class='{ active: tab == "conference" }')
-      span(ng-if='conference.isPersistent()' ng-cloak=true)
-        i.icon.student
-        | {{ conference.title }}
-      span(ng-if='!conference.isPersistent()' ng-cloak=true)
-        i.icon.file.outline
-        | New conference
-    a.item(ng-href='{{ conference.isPersistent() ? "/conferences/"+conference.slug+"/events" : "#" }}' ng-class='{ active: tab == "events", disabled: !conference.isPersistent() }')
-      i.icon.calendar
-      | Events
-      .ui.label(ng-show='conference.isPersistent()') {{ conference.events_count || 0 }}
-    a.item(ng-href='{{ conference.isPersistent() ? "/conferences/"+conference.slug+"/videos" : "#" }}' ng-class='{ active: tab == "videos", disabled: !conference.isPersistent() }')
-      i.icon.film
-      | Videos
-      .ui.label.inverted(ng-show='conference.isPersistent()') {{ conference.videos_count || 0 }}
-    a.item(ng-href='{{ conference.isPersistent() ? "/conferences/"+conference.slug+"/video_sources" : "#" }}' ng-class='{ active: tab == "video_sources", disabled: !conference.isPersistent() }')
-      i.icon.database
-      | Video sources
-  div(ng-show='tab == "conference"')
-    .ui.basic.segment
-      //.form(ng-class='{ disabled: conference.deleted_at}')
-      .two.fields
-        .field.required
-          label Title
-          input(type='text' ng-value='conference.title' ng-model='conference.title' ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }')
-        .field.required
-          label Slug
-          input(type='text' ng-value='conference.slug' ng-model='conference.slug' ng-disabled='conference.isPersistent()')
+.ui.segment(ng-show='conference')
+  form.ui.form(ng-show='conference')
+    .ui.purple.secondary.menu(ng-cloak=true)
+      a.item(ng-href='/conferences/{{ conference.slug || "new" }}' ng-class='{ active: tab == "conference" }')
+        span(ng-if='conference.isPersistent()' ng-cloak=true)
+          i.icon.student
+          | {{ conference.title }}
+        span(ng-if='!conference.isPersistent()' ng-cloak=true)
+          i.icon.file.outline
+          | New conference
+      a.item(ng-href='{{ conference.isPersistent() ? "/conferences/"+conference.slug+"/events" : "#" }}' ng-class='{ active: tab == "events", disabled: !conference.isPersistent() }')
+        i.icon.calendar
+        | Events
+        .ui.label(ng-show='conference.isPersistent()') {{ conference.events_count || 0 }}
+      a.item(ng-href='{{ conference.isPersistent() ? "/conferences/"+conference.slug+"/videos" : "#" }}' ng-class='{ active: tab == "videos", disabled: !conference.isPersistent() }')
+        i.icon.film
+        | Videos
+        .ui.label.inverted(ng-show='conference.isPersistent()') {{ conference.videos_count || 0 }}
+      a.item(ng-href='{{ conference.isPersistent() ? "/conferences/"+conference.slug+"/video_sources" : "#" }}' ng-class='{ active: tab == "video_sources", disabled: !conference.isPersistent() }')
+        i.icon.database
+        | Video sources
+    div(ng-show='tab == "conference"')
+      .ui.basic.segment
+        //.form(ng-class='{ disabled: conference.deleted_at}')
+        .two.fields
+          .field.required
+            label Title
+            input(type='text' ng-value='conference.title' ng-model='conference.title' ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }')
+          .field.required
+            label Slug
+            input(type='text' ng-value='conference.slug' ng-model='conference.slug' ng-disabled='conference.isPersistent()')
 
-      .two.fields
-        .field.required
-          label Type
-          select.ui.dropdown(ng-model='conference.type' ui-dropdown=true)
-            option(value='') Conference type
-            option(ng-repeat='type in conferenceTypes' ng-value='type' ng-selected='type == conference.type')
-              | {{ type }}
-        .field.required
-          label Scope
-          select.ui.dropdown(ng-model='conference.scope' ui-dropdown=true)
-            option(ng-repeat='scope in scopes' ng-value='scope.slug' ng-selected='scope.slug == conference.scope')
-              | {{ scope.title }}
-      .two.fields
-        .field
+        .two.fields
+          .field.required
+            label Type
+            select.ui.dropdown(ng-model='conference.type' ui-dropdown=true)
+              option(value='') Conference type
+              option(ng-repeat='type in conferenceTypes' ng-value='type' ng-selected='type == conference.type')
+                | {{ type }}
+          .field.required
+            label Scope
+            select.ui.dropdown(ng-model='conference.scope' ui-dropdown=true)
+              option(ng-repeat='scope in scopes' ng-value='scope.slug' ng-selected='scope.slug == conference.scope')
+                | {{ scope.title }}
+        .two.fields
           .field
-            label Url
-            input(type='text' ng-value='conference.url'
-              placeholder='http://' ng-model='conference.url')
+            .field
+              label Url
+              input(type='text' ng-value='conference.url'
+                placeholder='http://' ng-model='conference.url')
 
-          .field.inline
-            .ui.toggle.checkbox(ui-checkbox='conference.is_active')
-              input(type='checkbox' ng-checked='conference.is_active' value='true')
-              label Active
+            .field.inline
+              .ui.toggle.checkbox(ui-checkbox='conference.is_active')
+                input(type='checkbox' ng-checked='conference.is_active' value='true')
+                label Active
+          .field
+            .two.fields
+              .field
+                label Thumbnail
+                input(type='text' ng-value='conference.thumbnail' placeholder='http://' ng-model='conference.thumbnail' ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }')
+                i Note: use zhf.io to store uploads
+              .field
+                img.ui.small.rounded.image(ng-src='{{ conference.thumbnail }}' ng-show='conference.thumbnail')
+
         .field
-          .two.fields
-            .field
-              label Thumbnail
-              input(type='text' ng-value='conference.thumbnail' placeholder='http://' ng-model='conference.thumbnail' ng-model-options='{ updateOn: "default blur", debounce: {"default": 500, "blur": 0} }')
-              i Note: use zhf.io to store uploads
-            .field
-              img.ui.small.rounded.image(ng-src='{{ conference.thumbnail }}' ng-show='conference.thumbnail')
+          label Description
+          textarea(type='text' ng-value='conference.description' placeholder='Lorem ipsum...' ng-model='conference.description')
+        .ui.active.inverted.dimmer(ng-show='conference.deleted_at')
+      .ui.buttons
+        button.ui.positive.button(ng-click='save()' ng-class='{ disabled: conference.deleted_at }')
+          i.icon.save
+          | Save
+        .or
+        a.ui.button(href='/conferences')
+          i.icon.ban
+          | Cancel
 
-      .field
-        label Description
-        textarea(type='text' ng-value='conference.description' placeholder='Lorem ipsum...' ng-model='conference.description')
-      .ui.active.inverted.dimmer(ng-show='conference.deleted_at')
-    .ui.buttons
-      button.ui.positive.button(ng-click='save()' ng-class='{ disabled: conference.deleted_at }')
-        i.icon.save
-        | Save
-      .or
-      a.ui.button(href='/conferences')
-        i.icon.ban
-        | Cancel
-
-    button.ui.button.floated.right.primary.animated(ng-click='sync()' ng-show='conference.isPersistent()' ng-class='{ disabled: conference.deleted_at }')
-      .hidden.content
-        i.icon.refresh.white
-        | Sync
-      .visible.content
-        i.icon.refresh.white
-        | {{ conference.synced_at | timeAgo }}
-    button.right.floated.ui.button.negative(ng-click='destroy()' ng-show='conference.isPersistent() && !conference.deleted_at')
-      i.icon.trash
-      | Destroy
-    button.right.floated.ui.button.negative.animated(ng-click='restore()' ng-show='conference.deleted_at')
-      .hidden.content
-        i.icon.undo
-        | Restore
-      .visible.content
+      button.ui.button.floated.right.primary.animated(ng-click='sync()' ng-show='conference.isPersistent()' ng-class='{ disabled: conference.deleted_at }')
+        .hidden.content
+          i.icon.refresh.white
+          | Sync
+        .visible.content
+          i.icon.refresh.white
+          | {{ conference.synced_at | timeAgo }}
+      button.right.floated.ui.button.negative(ng-click='destroy()' ng-show='conference.isPersistent() && !conference.deleted_at')
         i.icon.trash
-        | {{ conference.deleted_at | timeAgo }}
+        | Destroy
+      button.right.floated.ui.button.negative.animated(ng-click='restore()' ng-show='conference.deleted_at')
+        .hidden.content
+          i.icon.undo
+          | Restore
+        .visible.content
+          i.icon.trash
+          | {{ conference.deleted_at | timeAgo }}
   div(ng-if='tab == "events"' ng-include='"/templates/events/list.html"')
   div(ng-if='tab == "videos"' ng-include='"/templates/videos/list.html"')
   div(ng-if='tab == "video_sources"' ng-include='"/templates/video_sources/list.html"')

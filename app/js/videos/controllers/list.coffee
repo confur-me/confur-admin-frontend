@@ -23,7 +23,21 @@ module.exports = ($scope, $routeParams, Video, Tag, Setting) ->
       Video.query()
 
   $scope.search = (query) ->
-    $scope.videos = Video.query(q: query)
+    $scope.videos =
+      if $routeParams.conferenceSlug
+        Video.byConference
+          conference_slug: $routeParams.conferenceSlug
+          q: query
+      else if $routeParams.eventId
+        Video.byEvent
+          event_id: $routeParams.eventId
+          q: query
+      else if $routeParams.tag
+        Video.byTag
+          tag_slug: $routeParams.tagSlug
+          q: query
+      else
+        Video.query(q: query)
 
   $scope.edit = (id) ->
     $scope.cancel()

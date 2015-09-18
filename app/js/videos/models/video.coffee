@@ -21,6 +21,13 @@ module.exports = ($resource) ->
         params:
           event_id: '@event_id'
           limit: 21
+      byTag:
+        method: 'GET'
+        isArray: true
+        url: '/api/tags/:tag_slug/videos'
+        params:
+          tag_slug: '@tag_slug'
+          limit: 21
       restore:
         method: 'POST'
         url: '/api/videos/:id/restore'

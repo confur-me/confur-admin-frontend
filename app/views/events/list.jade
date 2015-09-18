@@ -1,4 +1,10 @@
 div(ng-controller='ListEventsCtrl' ng-keyup='$event.keyCode == 27 && cancel()')
+  .ui.secondary.pointing.menu
+    .item
+      h3 Events
+    .right.menu
+      .item
+        ng-include(src="'/templates/shared/_search_form.html'")
   .ui.selection.animated.list(ng-cloak=true)
     .item(ng-repeat='event in events | orderBy:"title" track by event.id')
       .ui.left.floated.compact(ng-click='$location.path("/events/" + event.id)' ng-class='{ "disabled-item": !event.is_active }')
